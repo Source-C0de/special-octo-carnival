@@ -63,7 +63,7 @@
   --font-display: var(--app-font-display);
   --font-arabic: 'Tajawal', sans-serif;
 
-  --color-sand: #F5F5F4;
+  --color-blue-primary: #1E5A8E;
   --color-emerald: #0A5C36;
   --color-teal: #00C9B1;
 
@@ -96,8 +96,10 @@
   --popover-foreground: 222 47% 11%;
   --popover-border: 214 32% 91%;
 
-  --primary: 152 80% 20%;
+  --primary: 200 70% 50%;
+  /* #3B8FD9 - Brighter Blue */
   --primary-foreground: 0 0% 100%;
+  --primary-border: 200 70% 50%;
 
   --secondary: 152 10% 95%;
   --secondary-foreground: 152 80% 20%;
@@ -202,6 +204,17 @@
 }
 
 @layer utilities {
+
+  .green-lab-gradient {
+    background: linear-gradient(135deg, #1E5A8E 0%, #08a5cc 100%);
+  }
+
+  .green-lab-text {
+    background: linear-gradient(90deg, #1E5A8E, #08a5cc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
   .hide-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
