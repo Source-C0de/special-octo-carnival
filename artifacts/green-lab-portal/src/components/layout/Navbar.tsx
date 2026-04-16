@@ -24,12 +24,12 @@ export function Navbar() {
   }
 
   const isHome = location === "/";
-  const navBg = isScrolled ? "bg-background/95 backdrop-blur-md border-b shadow-sm" : isHome ? "bg-transparent text-white border-b border-white/10" : "bg-background border-b";
-  const textColor = !isScrolled && isHome ? "text-white hover:text-white/80" : "text-foreground hover:text-primary";
+  const navBg = isScrolled ? "bg-background/95 backdrop-blur-md border-b shadow-sm" : isHome ? "bg-background/85 backdrop-blur-md border-b border-border/60" : "bg-background border-b";
+  const textColor = "text-foreground hover:text-primary";
 
   const t = {
-    en: { services: "Services", dashboard: "Dashboard", contact: "Contact", search: "Search standards, tests...", login: "Client Login", quote: "Quick Quote" },
-    ar: { services: "الخدمات", dashboard: "لوحة القيادة", contact: "اتصل بنا", search: "ابحث عن المعايير والاختبارات...", login: "تسجيل الدخول", quote: "اقتباس سريع" }
+    en: { services: "Services", about: "About Us", dashboard: "Dashboard", contact: "Contact", search: "Search standards, tests...", login: "Client Login", quote: "Quick Quote" },
+    ar: { services: "الخدمات", about: "من نحن", dashboard: "لوحة القيادة", contact: "اتصل بنا", search: "ابحث عن المعايير والاختبارات...", login: "تسجيل الدخول", quote: "اقتباس سريع" }
   }[language];
 
   const megaMenu = (
@@ -90,6 +90,7 @@ export function Navbar() {
                   {megaMenu}
                 </DropdownMenuContent>
               </DropdownMenu>
+              <a href="/#about" className={textColor}>{t.about}</a>
               <Link href="/dashboard" className={textColor}>{t.dashboard}</Link>
               <Link href="/contact" className={textColor}>{t.contact}</Link>
             </nav>
@@ -100,7 +101,7 @@ export function Navbar() {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <Input 
                 placeholder={t.search} 
-                className={`w-full pl-9 bg-background/50 border-white/20 focus-visible:ring-primary ${!isScrolled && isHome ? 'text-white placeholder:text-white/60' : ''}`}
+                className="w-full pl-9 bg-background/50 focus-visible:ring-primary"
               />
             </div>
           </div>
@@ -126,7 +127,7 @@ export function Navbar() {
             </Button>
 
             <div className="hidden md:flex gap-2">
-              <Button variant="outline" className={!isScrolled && isHome ? "bg-transparent text-white border-white/30 hover:bg-white/10" : ""} asChild>
+              <Button variant="outline" asChild>
                 <Link href="/dashboard">{t.login}</Link>
               </Button>
               <Button onClick={() => setQuoteOpen(true)}>{t.quote}</Button>
@@ -153,7 +154,8 @@ export function Navbar() {
                   </div>
 
                   <nav className="flex flex-col gap-4 text-lg font-medium">
-                    <Link href="/">{t.services}</Link>
+                    <a href="/#services">{t.services}</a>
+                    <a href="/#about">{t.about}</a>
                     <Link href="/dashboard">{t.dashboard}</Link>
                     <Link href="/contact">{t.contact}</Link>
                   </nav>

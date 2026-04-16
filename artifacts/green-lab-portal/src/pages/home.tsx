@@ -15,6 +15,11 @@ export default function Home() {
 
   useEffect(() => {
     setMounted(true);
+    if (window.location.hash === "#about") {
+      window.setTimeout(() => {
+        document.getElementById("about")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 100);
+    }
   }, []);
 
   const filteredServices = activeIndustry === "All" 
@@ -24,7 +29,7 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* HERO SECTION */}
-      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[78vh] flex items-center justify-center overflow-hidden">
         {/* Background layer */}
         <div className="absolute inset-0 bg-secondary/30">
           <div className="absolute inset-0 molecular-bg opacity-30" />
@@ -32,7 +37,7 @@ export default function Home() {
           <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-accent/10 rounded-full blur-[100px] translate-y-1/4 -translate-x-1/4" />
         </div>
 
-        <div className="container relative z-10 mx-auto px-4 py-20 text-center lg:text-left flex flex-col lg:flex-row items-center gap-12">
+        <div className="container relative z-10 mx-auto px-4 pt-28 pb-14 text-center lg:text-left flex flex-col lg:flex-row items-center gap-12">
           <div className="flex-1 max-w-3xl space-y-8">
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
@@ -76,6 +81,9 @@ export default function Home() {
               </Button>
               <Button size="lg" variant="outline" className="w-full sm:w-auto text-base h-14 px-8 border-2" asChild>
                 <Link href="#services">Explore Services</Link>
+              </Button>
+              <Button size="lg" variant="secondary" className="w-full sm:w-auto text-base h-14 px-8" asChild>
+                <a href="#about">About Green Lab</a>
               </Button>
             </motion.div>
 
@@ -194,7 +202,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-24 border-y bg-gradient-to-b from-primary/5 to-background">
+      <section id="about" className="scroll-mt-20 py-24 border-y bg-gradient-to-b from-primary/5 to-background">
         <div className="container mx-auto px-4">
           <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] items-start">
             <div className="space-y-6">
