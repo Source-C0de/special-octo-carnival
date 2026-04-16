@@ -75,15 +75,15 @@
 
 /* LIGHT MODE */
 :root {
-  --button-outline: rgba(0,0,0, .10);
-  --badge-outline: rgba(0,0,0, .05);
+  --button-outline: rgba(0, 0, 0, .10);
+  --badge-outline: rgba(0, 0, 0, .05);
   --opaque-button-border-intensity: -8;
-  --elevate-1: rgba(0,0,0, .03);
-  --elevate-2: rgba(0,0,0, .08);
+  --elevate-1: rgba(0, 0, 0, .03);
+  --elevate-2: rgba(0, 0, 0, .08);
 
-  --background: 210 40% 98%; 
+  --background: 210 40% 98%;
   --foreground: 222 47% 11%;
-  
+
   --border: 214 32% 91%;
   --input: 214 32% 91%;
   --ring: 152 80% 20%;
@@ -120,11 +120,11 @@
   --sidebar-accent-foreground: 152 80% 20%;
   --sidebar-ring: 152 80% 20%;
 
-  --chart-1: 152 80% 20%; 
-  --chart-2: 173 100% 39%; 
-  --chart-3: 221 83% 53%; 
-  --chart-4: 43 74% 66%; 
-  --chart-5: 215 16% 47%; 
+  --chart-1: 152 80% 20%;
+  --chart-2: 173 100% 39%;
+  --chart-3: 221 83% 53%;
+  --chart-4: 43 74% 66%;
+  --chart-5: 215 16% 47%;
 
   --app-font-sans: 'Manrope', sans-serif;
   --app-font-display: 'Clash Display', sans-serif;
@@ -132,15 +132,15 @@
 }
 
 .dark {
-  --button-outline: rgba(255,255,255, .10);
-  --badge-outline: rgba(255,255,255, .05);
+  --button-outline: rgba(255, 255, 255, .10);
+  --badge-outline: rgba(255, 255, 255, .05);
   --opaque-button-border-intensity: 9;
-  --elevate-1: rgba(255,255,255, .04);
-  --elevate-2: rgba(255,255,255, .09);
+  --elevate-1: rgba(255, 255, 255, .04);
+  --elevate-2: rgba(255, 255, 255, .09);
 
   --background: 222 47% 11%;
   --foreground: 210 40% 98%;
-  
+
   --border: 217.2 32.6% 17.5%;
   --input: 217.2 32.6% 17.5%;
   --ring: 173 100% 39%;
@@ -153,7 +153,7 @@
   --popover-foreground: 210 40% 98%;
   --popover-border: 217.2 32.6% 17.5%;
 
-  --primary: 152 80% 40%; 
+  --primary: 152 80% 40%;
   --primary-foreground: 0 0% 100%;
 
   --secondary: 217.2 32.6% 17.5%;
@@ -186,8 +186,13 @@
   body {
     @apply font-sans antialiased bg-background text-foreground scroll-smooth;
   }
-  
-  h1, h2, h3, h4, h5, h6 {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-display tracking-tight text-balance;
   }
 
@@ -201,10 +206,11 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+
   .hide-scrollbar::-webkit-scrollbar {
     display: none;
   }
-  
+
   .molecular-bg {
     background-image: radial-gradient(hsl(var(--primary) / 0.1) 1px, transparent 1px);
     background-size: 24px 24px;

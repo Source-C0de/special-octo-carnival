@@ -15,8 +15,8 @@ export default function Home() {
     setMounted(true);
   }, []);
 
-  const filteredServices = activeIndustry === "All" 
-    ? services.slice(0, 6) 
+  const filteredServices = activeIndustry === "All"
+    ? services.slice(0, 6)
     : services.filter(s => s.industries.includes(activeIndustry));
 
   return (
@@ -32,7 +32,7 @@ export default function Home() {
 
         <div className="container relative z-10 mx-auto px-4 pt-28 pb-14 text-center lg:text-left flex flex-col lg:flex-row items-center gap-12">
           <div className="flex-1 max-w-3xl space-y-8">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
@@ -42,7 +42,7 @@ export default function Home() {
               ISO/IEC 17025:2017 Certified
             </motion.div>
 
-            <motion.h1 
+            <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
@@ -53,7 +53,7 @@ export default function Home() {
               Global Standards.
             </motion.h1>
 
-            <motion.p 
+            <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
@@ -62,7 +62,7 @@ export default function Home() {
               Saudi Arabia's premier analytical laboratory supporting Vision 2030. We deliver uncompromised quality and speed for pharmaceuticals, food, water, and industrial sectors.
             </motion.p>
 
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
@@ -80,7 +80,7 @@ export default function Home() {
               </Button>
             </motion.div>
 
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.5 }}
@@ -92,7 +92,7 @@ export default function Home() {
             </motion.div>
           </div>
 
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, delay: 0.2 }}
@@ -110,7 +110,7 @@ export default function Home() {
                   </div>
                   <Badge variant="outline" className="font-mono">Portal Preview</Badge>
                 </div>
-                
+
                 <div className="flex-1 space-y-4">
                   <div className="flex items-center justify-between">
                     <div>
@@ -121,33 +121,33 @@ export default function Home() {
                       <span className="font-bold">A+</span>
                     </div>
                   </div>
-                  
+
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
                       <span>Heavy Metals Analysis</span>
                       <span className="text-green-500 font-medium">Compliant</span>
                     </div>
                     <div className="h-2 bg-secondary rounded-full overflow-hidden">
-                      <motion.div 
+                      <motion.div
                         initial={{ width: 0 }}
                         animate={mounted ? { width: "100%" } : {}}
                         transition={{ duration: 1, delay: 0.5 }}
-                        className="h-full bg-green-500" 
+                        className="h-full bg-green-500"
                       />
                     </div>
                   </div>
-                  
+
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
                       <span>Microbial Limits</span>
                       <span className="text-accent font-medium">Processing</span>
                     </div>
                     <div className="h-2 bg-secondary rounded-full overflow-hidden">
-                      <motion.div 
+                      <motion.div
                         initial={{ width: 0 }}
                         animate={mounted ? { width: "65%" } : {}}
                         transition={{ duration: 1, delay: 0.7 }}
-                        className="h-full bg-accent relative overflow-hidden" 
+                        className="h-full bg-accent relative overflow-hidden"
                       >
                         <div className="absolute inset-0 bg-white/20 animate-pulse" />
                       </motion.div>
@@ -161,10 +161,10 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              
+
               {/* Floating decorative elements */}
-              <motion.div 
-                animate={{ y: [0, -10, 0] }} 
+              <motion.div
+                animate={{ y: [0, -10, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                 className="absolute -right-4 top-12 bg-background border shadow-lg rounded-xl p-3 flex items-center gap-3"
               >
@@ -177,8 +177,8 @@ export default function Home() {
                 </div>
               </motion.div>
 
-              <motion.div 
-                animate={{ y: [0, 10, 0] }} 
+              <motion.div
+                animate={{ y: [0, 10, 0] }}
                 transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
                 className="absolute -left-8 bottom-24 bg-background border shadow-lg rounded-xl p-3 flex items-center gap-3"
               >
@@ -209,8 +209,8 @@ export default function Home() {
                 key={ind}
                 onClick={() => setActiveIndustry(ind)}
                 className={`whitespace-nowrap px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-200 border
-                  ${activeIndustry === ind 
-                    ? "bg-primary text-primary-foreground border-primary shadow-md" 
+                  ${activeIndustry === ind
+                    ? "bg-primary text-primary-foreground border-primary shadow-md"
                     : "bg-background hover:bg-secondary border-border text-foreground"
                   }`}
               >
@@ -265,7 +265,7 @@ export default function Home() {
               </motion.div>
             ))}
           </div>
-          
+
           <div className="mt-16 text-center">
             <Button size="lg" variant="outline" className="border-2" asChild>
               <Link href="/contact">Can't find your test? Contact us</Link>
@@ -285,7 +285,7 @@ export default function Home() {
           <div className="relative">
             {/* Connecting line */}
             <div className="absolute top-1/2 left-0 w-full h-0.5 bg-border hidden md:block -translate-y-1/2 z-0" />
-            
+
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative z-10">
               {[
                 { step: "01", title: "Submit Request", desc: "Request a quote or login to portal to initiate a job." },
@@ -293,7 +293,7 @@ export default function Home() {
                 { step: "03", title: "Precision Testing", desc: "Track progress live as our ISO-certified labs execute." },
                 { step: "04", title: "Report Delivery", desc: "Download instantly verified digital CoAs and CoCs." }
               ].map((s, i) => (
-                <motion.div 
+                <motion.div
                   key={s.step}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -317,7 +317,7 @@ export default function Home() {
       <section className="py-24 bg-background">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -327,9 +327,9 @@ export default function Home() {
               <p className="text-lg text-muted-foreground mb-8">
                 Our analytical team consists of Ph.D. chemists, certified microbiologists, and industry veterans dedicated to uncovering the truth in every sample.
               </p>
-              
+
               <div className="grid sm:grid-cols-2 gap-6">
-                {expertProfiles.slice(0,2).map(expert => (
+                {expertProfiles.slice(0, 2).map(expert => (
                   <div key={expert.id} className="flex gap-4 items-start">
                     <img src={expert.image} alt={expert.name} className="w-16 h-16 rounded-full object-cover border-2 border-border shadow-sm" />
                     <div>
@@ -340,7 +340,7 @@ export default function Home() {
                   </div>
                 ))}
               </div>
-              
+
               <div className="mt-10 pt-8 border-t">
                 <blockquote className="italic text-muted-foreground relative pl-4 border-l-4 border-primary/30">
                   "Green Lab's precision and rapid turnaround have been instrumental in getting our products to market faster. Their client portal is a game changer."
@@ -350,8 +350,8 @@ export default function Home() {
                 </blockquote>
               </div>
             </motion.div>
-            
-            <motion.div 
+
+            <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
@@ -365,7 +365,7 @@ export default function Home() {
                     <h3 className="font-bold">Recent Certificates</h3>
                     <Button variant="link" size="sm" className="text-primary h-auto p-0">View All</Button>
                   </div>
-                  
+
                   <div className="space-y-3">
                     {[
                       { id: "COA-8992", date: "Today", type: "Certificate of Analysis", status: "Verified" },
@@ -389,7 +389,7 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              
+
               {/* Decorative blobs */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-r from-primary/10 to-transparent rounded-full blur-3xl -z-10" />
             </motion.div>
@@ -401,9 +401,9 @@ export default function Home() {
       <section className="py-24 bg-primary text-primary-foreground relative overflow-hidden">
         <div className="absolute inset-0 molecular-bg opacity-20" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent mix-blend-multiply" />
-        
+
         <div className="container relative z-10 mx-auto px-4 text-center">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}

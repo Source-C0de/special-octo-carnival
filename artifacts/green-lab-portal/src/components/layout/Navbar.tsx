@@ -81,10 +81,10 @@ export function Navbar() {
   return (
     <>
       <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${navBg}`}>
-        <div className="container mx-auto px-4 h-16 flex items-center justify-between gap-4">
+        <div className="container mx-auto px-4 h-20 flex items-center justify-between gap-4">
           <div className="flex items-center gap-6 lg:gap-10">
             <Link href="/" className={`flex items-center gap-3 transition-opacity hover:opacity-90 ${textColor}`}>
-              <img src="/gl-3.jpeg" alt="Green Lab Logo" className="h-10 w-auto rounded-sm object-cover" />
+              <img src="/gl-3.jpeg" alt="Green Lab Logo" className="h-14 w-auto rounded-sm object-cover" />
               {/* <span className="font-display font-bold text-xl tracking-tight">Green Lab</span> */}
             </Link>
 
@@ -157,7 +157,7 @@ export function Navbar() {
               <SheetContent side={language === "ar" ? "right" : "left"} className="w-[300px] sm:w-[400px]">
                 <div className="flex flex-col gap-6 py-6">
                   <Link href="/" className="flex items-center gap-3">
-                    <img src="/gl-2.jpg" alt="Green Lab Logo" className="h-10 w-auto rounded-sm object-cover" />
+                    <img src="/gl-3.jpeg" alt="Green Lab Logo" className="h-12 w-auto rounded-md object-cover" />
                     <span className="font-display font-bold text-xl tracking-tight">Green Lab</span>
                   </Link>
 

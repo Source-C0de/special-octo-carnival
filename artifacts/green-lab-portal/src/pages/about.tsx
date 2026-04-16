@@ -4,15 +4,14 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import {
   ArrowRight, Award, Building2, CheckCircle2, FlaskConical,
   MapPin, ShieldCheck, Users, Target, Zap, Globe,
-  Microscope, Beaker, ClipboardCheck
+  Microscope, Beaker, ClipboardCheck, MessageSquare, FileText,
+  Linkedin, Mail
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useLanguage } from "@/components/language-provider";
-
-import { aboutMilestones, aboutValues, caseStudies, expertProfiles } from "@/lib/mock-data";
-
+import { aboutMilestones, aboutValues, expertProfiles } from "@/lib/mock-data";
 
 // Reusable Counter Component
 const MetricCounter = ({ value, label, suffix = "" }: { value: number, label: string, suffix?: string }) => {
@@ -59,8 +58,11 @@ export default function About() {
       heroDesc: "Green Lab is the Kingdom's premier destination for high-precision analytical services, bridging the gap between global laboratory standards and Saudi Arabia's Vision 2030.",
       visionTitle: "Scientific Leadership",
       visionDesc: "Our vision is to be the benchmark of analytical excellence in the Middle East, empowering industries through data-driven trust.",
-      valuesTitle: "Our Institutional Values",
+      valuesTitle: "Institutional Core Values",
       milestonesTitle: "The Journey of Precision",
+      leadershipTitle: "Expertise & Local Impact",
+      leadershipDesc: "Scientific leadership meets regional operational excellence to support Saudi Arabia's industrial transformation.",
+      journeyTitle: "The Partner Journey",
     },
     ar: {
       heroTag: "ريادة الجودة التحليلية",
@@ -68,8 +70,11 @@ export default function About() {
       heroDesc: "جرين لاب هو الوجهة الرائدة في المملكة للخدمات التحليلية عالية الدقة، حيث يسد الفجوة بين معايير المختبرات العالمية ورؤية السعودية 2030.",
       visionTitle: "القيادة العلمية",
       visionDesc: "رؤيتنا هي أن نكون المرجع للتميز التحليلي في الشرق الأوسط، لتمكين الصناعات من خلال الثقة القائمة على البيانات.",
-      valuesTitle: "قيمنا المؤسسية",
+      valuesTitle: "القيم المؤسسية الأساسية",
       milestonesTitle: "رحلة الدقة",
+      leadershipTitle: "الخبرة والأثر المحلي",
+      leadershipDesc: "تترابط القيادة العلمية مع التميز التشغيلي الإقليمي لدعم التحول الصناعي في المملكة.",
+      journeyTitle: "رحلة الشريك",
     }
   }[language];
 
@@ -77,7 +82,7 @@ export default function About() {
     <div className={`min-h-screen bg-sand/30 font-sans overflow-hidden ${language === 'ar' ? 'rtl' : 'ltr'}`}>
 
       {/* 1. PREMIUM HERO SECTION */}
-      <section className="relative pt-16 pb-10 lg:pt-24 lg:pb-16 overflow-hidden border-b bg-gradient-to-b from-primary/10 via-background to-background">
+      <section className="relative pt-32 pb-24 lg:pt-24 lg:pb-16 overflow-hidden bg-white bg-gradient-to-b from-primary/10 via-background to-background">
         <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-pharma-grid" />
         <div className="container relative z-10 mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-20 items-center">
@@ -89,9 +94,6 @@ export default function About() {
               <Badge className="bg-emerald/10 text-emerald border-none px-4 py-1.5 text-xs font-bold uppercase tracking-widest">
                 {t.heroTag}
               </Badge>
-              {/* <Badge className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/10">
-                ISO/IEC 17025:2017 Certified | SFDA Approved
-              </Badge> */}
               <h1 className="text-5xl md:text-7xl font-display font-bold leading-[1.1] tracking-tight text-foreground">
                 {t.heroTitle.split(' ').map((word, i) => (
                   <span key={i} className={word === 'Tomorrow' || word === 'أفضل' ? 'text-emerald italic' : ''}>
@@ -110,6 +112,15 @@ export default function About() {
                 <MetricCounter value={12} suffix="+" label="Sectors" />
                 <MetricCounter value={10} suffix="k+" label="Tests / Year" />
               </div>
+
+              <div className="flex flex-wrap gap-4 pt-4">
+                <Button size="lg" className="h-14 px-10 bg-emerald rounded-2xl font-bold shadow-xl shadow-emerald/10 hover:bg-emerald/90">
+                  Get Started <ArrowRight className="ml-2 w-5 h-5" />
+                </Button>
+                <Button size="lg" variant="outline" className="h-14 px-10 border-emerald/10 text-primary rounded-2xl font-bold">
+                  View Certifications
+                </Button>
+              </div>
             </motion.div>
 
             <motion.div
@@ -117,7 +128,7 @@ export default function About() {
               animate={{ opacity: 1, scale: 1 }}
               className="relative"
             >
-              <div className="relative z-10 rounded-[3rem] overflow-hidden shadow-2xl shadow-emerald/10 aspect-[4/5] lg:aspect-square">
+              <div className="relative z-10 rounded-[3rem] overflow-hidden shadow-2xl shadow-emerald/10 aspect-[4/5] lg:aspect-square border-[0.5px] border-emerald/10">
                 <img src="https://images.unsplash.com/photo-1581093588401-fbb62a02f120?auto=format&fit=crop&q=80&w=1200" alt="Lab Excellence" className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-emerald/10 mix-blend-multiply" />
               </div>
@@ -142,135 +153,244 @@ export default function About() {
         </div>
       </section>
 
-      <section className="py-20">
+      {/* 2. VALUES SECTION */}
+      <section className="py-32 container mx-auto px-4">
+        <div className="text-center mb-20 space-y-4">
+          <h2 className="text-4xl md:text-5xl font-display font-bold">{t.valuesTitle}</h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto">Foundational principles that drive our analytical precision and industry leadership.</p>
+        </div>
+        <div className="grid md:grid-cols-3 gap-8">
+          {aboutValues.map((value, index) => (
+            <motion.div key={value.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.1 }}>
+              <Card className="h-full border-emerald/5 bg-white shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all rounded-[2rem] p-8 overflow-hidden group">
+                <div className="absolute top-0 right-0 p-8 select-none pointer-events-none opacity-[0.03] group-hover:opacity-[0.05] transition-opacity">
+                  <span className="text-7xl font-black font-display rotate-12 block"></span>
+                </div>
+                <div className="relative z-10">
+                  <div className="mb-6 w-14 h-14 items-center justify-center flex rounded-2xl bg-emerald/10 text-emerald">
+                    {index === 0 ? <CheckCircle2 className="w-7 h-7" /> : index === 1 ? <Users className="w-7 h-7" /> : <ShieldCheck className="w-7 h-7" />}
+                  </div>
+                  <h3 className="text-2xl font-bold mb-4">{value.title}</h3>
+                  <p className="text-muted-foreground leading-relaxed">{value.description}</p>
+                </div>
+              </Card>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* 3. CLIENT JOURNEY (THE PARTNER PATH) */}
+      <section className="py-32 overflow-hidden bg-white border-y">
         <div className="container mx-auto px-4">
-          <div className="grid gap-5 md:grid-cols-3">
-            {aboutValues.map((value, index) => (
-              <motion.div key={value.title} initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.08 }}>
-                <Card className="h-full border-border/60 shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl">
-                  <CardContent className="p-6">
-                    <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                      {index === 0 ? <CheckCircle2 /> : index === 1 ? <Users /> : <ShieldCheck />}
+          <div className="text-center mb-20 space-y-4">
+            <Badge className="bg-primary/10 text-primary border-none text-[10px] font-black tracking-widest uppercase px-4 py-1">{t.journeyTitle}</Badge>
+            <h2 className="text-4xl md:text-5xl font-display font-bold">From Inquiry to <span className="text-primary italic">Compliance.</span></h2>
+          </div>
+
+          <div className="relative">
+            <div className="absolute top-[45px] left-0 right-0 h-[2px] bg-emerald/5 hidden lg:block">
+              <motion.div
+                className="h-full bg-emerald shadow-[0_0_15px_#10b981]"
+                initial={{ width: "0%" }}
+                whileInView={{ width: "100%" }}
+                transition={{ duration: 2, ease: "easeInOut" }}
+              />
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 relative z-10">
+              {[
+                { id: "01", icon: MessageSquare, title: { en: "Consultation", ar: "الاستشارة" }, desc: { en: "Strategic technical alignment.", ar: "التوافق الفني الاستراتيجي." } },
+                { id: "02", icon: ShieldCheck, title: { en: "Logistics", ar: "اللوجستيات" }, desc: { en: "Secure sample chain-of-custody.", ar: "سلسلة الحيازة الآمنة للعينات." } },
+                { id: "03", icon: Microscope, title: { en: "Analysis", ar: "التحليل" }, desc: { en: "High-precision instrumentation.", ar: "أجهزة عالية الدقة." } },
+                { id: "04", icon: ClipboardCheck, title: { en: "Verification", ar: "التحقق" }, desc: { en: "Strict ISO/SFDA local audit.", ar: "تدقيق محلي صارم." } },
+                { id: "05", icon: FileText, title: { en: "Reporting", ar: "التقارير" }, desc: { en: "Instant digital records.", ar: "سجلات رقمية فورية." } }
+              ].map((step, i) => {
+                const Icon = step.icon;
+                return (
+                  <motion.div
+                    key={step.id}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.15 }}
+                    className="flex flex-col items-center text-center group"
+                  >
+                    <div className="w-24 h-24 rounded-3xl bg-white border-2 border-emerald/10 flex items-center justify-center text-emerald mb-6 group-hover:border-emerald group-hover:bg-emerald/5 transition-all shadow-xl shadow-emerald/5 group-hover:scale-110">
+                      <Icon className="w-10 h-10" />
                     </div>
-                    <h2 className="text-xl font-semibold">{value.title}</h2>
-                    <p className="mt-3 text-muted-foreground leading-relaxed">{value.description}</p>
-                  </CardContent>
-                </Card>
+                    <div className="space-y-2">
+                      <span className="text-[10px] font-black text-primary/40 uppercase tracking-tighter">Phase {step.id}</span>
+                      <h4 className="text-xl font-bold">{step.title[language]}</h4>
+                      <p className="text-xs text-muted-foreground leading-relaxed px-4">{step.desc[language]}</p>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-sand/30 py-40 border-y">
+        <div className="container mx-auto px-4 max-w-4xl">
+          <div className="text-center mb-24 space-y-4">
+            <Badge variant="outline" className="border-emerald/20 text-emerald uppercase text-[10px] font-black tracking-[0.2em]">{t.milestonesTitle}</Badge>
+            <h2 className="text-5xl font-display font-bold">Chronicles of Evolution</h2>
+          </div>
+
+          <div className="relative space-y-24">
+            <div className="absolute left-6 md:left-1/2 top-4 bottom-4 w-px bg-emerald/10 -translate-x-1/2 hidden md:block" />
+
+            {[
+              { year: "2018", title: { en: "The Foundation", ar: "التأسيس" }, desc: "Laid the first stones of Saudi-owned precision testing.", icon: Beaker, align: "right" },
+              { year: "2019", title: { en: "Accreditation Leap", ar: "قفزة الاعتماد" }, desc: "Attained ISO/IEC 17025 certification across core scopes.", icon: Award, align: "left" },
+              { year: "2021", title: { en: "State Recognition", ar: "الاعتراف الحكومي" }, desc: "SFDA authorization for drug and food safety analytics.", icon: ClipboardCheck, align: "right" },
+              { year: "2024", title: { en: "Saudi Vision Era", ar: "عصر رؤية السعودية" }, desc: "Expansion into futurist projects and NEOM specialized support.", icon: Microscope, align: "left" },
+            ].map((milestone, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, x: milestone.align === 'left' ? -50 : 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                className={`relative flex items-center justify-center md:justify-between w-full md:even:flex-row-reverse`}
+              >
+                <div className="hidden md:flex flex-1" />
+                <div className="relative z-10 w-16 h-16 rounded-[2rem] bg-emerald text-white flex items-center justify-center mx-10 shadow-2xl shadow-emerald/30 border-4 border-white">
+                  <milestone.icon className="w-7 h-7" />
+                </div>
+                <div className="flex-1 bg-white p-10 rounded-[3rem] shadow-xl border border-emerald/5 hover:border-emerald/20 transition-colors">
+                  <span className="text-emerald font-mono font-bold text-xl mb-3 block">{milestone.year}</span>
+                  <h4 className="text-2xl font-bold mb-3">{milestone.title[language]}</h4>
+                  <p className="text-muted-foreground leading-relaxed">{milestone.desc}</p>
+                </div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* 2. VISION & VALUES BENTO GRID */}
 
-      {/* 3. THE JOURNEY TIMELINE (REMASTERED) */}
-      <section className="bg-sand/40 py-32 border-y">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto space-y-20">
-            <div className="text-center space-y-4">
-              <Badge variant="outline" className="border-emerald/20 text-emerald uppercase text-[10px] font-black tracking-[0.2em]">{t.milestonesTitle}</Badge>
-              <h2 className="text-4xl md:text-5xl font-display font-bold">Chronicles of Evolution</h2>
-            </div>
-
-            <div className="relative space-y-12">
-              {/* VERTICAL LINE */}
-              <div className="absolute left-6 md:left-1/2 top-4 bottom-4 w-px bg-emerald/10 -translate-x-1/2 hidden md:block" />
-
-              {[
-                { year: "2018", title: "Inception", desc: "Laid the foundation of Saudi-owned high precision testing.", icon: Beaker, align: "right" },
-                { year: "2019", title: "ISO Accreditation", desc: "Received global recognition for testing excellence.", icon: Award, align: "left" },
-                { year: "2021", title: "SFDA Partnership", desc: "Authorized as a key partner for pharmaceutical and food safety.", icon: ClipboardCheck, align: "right" },
-                { year: "2024", title: "Smart Lab era", desc: "Deploying automated LIMS and high-sensitivity LC-MS/MS platforms.", icon: Microscope, align: "left" },
-              ].map((milestone, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, x: milestone.align === 'left' ? -50 : 50 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  className={`relative flex items-center justify-center md:justify-between w-full md:even:flex-row-reverse`}
-                >
-                  <div className="hidden md:flex flex-1" />
-                  <div className="relative z-10 w-12 h-12 rounded-full bg-emerald text-white flex items-center justify-center mx-10 shadow-lg shadow-emerald/20">
-                    <milestone.icon className="w-5 h-5" />
-                  </div>
-                  <div className="flex-1 bg-white p-8 rounded-[2rem] shadow-xl border border-emerald/5">
-                    <span className="text-emerald font-mono font-bold text-lg mb-2 block">{milestone.year}</span>
-                    <h4 className="text-xl font-bold mb-2">{milestone.title}</h4>
-                    <p className="text-sm text-muted-foreground leading-relaxed">{milestone.desc}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+      {/* 4. LEADERSHIP & SCIENTIFIC EXPERTS (REDESIGNED) */}
+      <section className="py-32 container mx-auto px-4">
+        <div className="grid lg:grid-cols-[0.8fr_1.2fr] gap-20 items-end mb-20">
+          <div className="space-y-6">
+            <Badge variant="outline" className="text-emerald border-emerald/20 uppercase tracking-widest text-[10px] font-black">Leadership</Badge>
+            <h2 className="text-4xl md:text-5xl font-display font-bold leading-tight">{t.leadershipTitle}</h2>
+            <p className="text-muted-foreground text-lg leading-relaxed">{t.leadershipDesc}</p>
           </div>
-        </div>
-      </section>
-
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="mb-10 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-            <div>
-              <Badge variant="outline" className="mb-4">Leadership & Local Impact</Badge>
-              <h2 className="text-3xl md:text-4xl font-display font-bold">Experts, hubs, and proof of impact</h2>
-            </div>
-            <Button variant="outline" asChild>
-              <Link href="/contact">Meet All Experts</Link>
+          <div className="flex justify-end">
+            <Button variant="outline" className="h-14 px-8 border-emerald/10 rounded-2xl group">
+              View All Scientific Staff <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Button>
           </div>
+        </div>
 
-          <div className="grid gap-6 lg:grid-cols-[1fr_0.9fr]">
-            <div className="grid gap-5 md:grid-cols-3">
-              {expertProfiles.map((expert) => (
-                <Card key={expert.id} className="overflow-hidden transition-all hover:-translate-y-1 hover:shadow-xl">
-                  <img src={expert.image} alt={expert.name} className="h-48 w-full object-cover" loading="lazy" />
-                  <CardContent className="p-5">
-                    <p className="font-semibold">{expert.name}</p>
-                    <p className="text-sm text-primary">{expert.role}</p>
-                    <p className="mt-3 text-sm text-muted-foreground">{expert.credentials}</p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-
-            <Card className="bg-primary text-primary-foreground shadow-xl">
-              <CardContent className="p-7">
-                <div className="mb-6 flex items-center gap-3">
-                  <MapPin className="h-6 w-6 text-accent" />
-                  <h3 className="text-2xl font-display font-bold">Saudi service hubs</h3>
-                </div>
-                <div className="space-y-4">
-                  {["Riyadh central lab", "Jeddah sample logistics", "Dammam industrial corridor", "NEOM project support"].map((hub) => (
-                    <div key={hub} className="flex items-center justify-between rounded-xl bg-white/10 p-4">
-                      <span>{hub}</span>
-                      <Building2 className="h-5 w-5 text-accent" />
+        <div className="grid md:grid-cols-3 gap-8">
+          {expertProfiles.map((expert, i) => (
+            <motion.div
+              key={expert.id}
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ delay: i * 0.1 }}
+              className="group"
+            >
+              <Card className="overflow-hidden border-none shadow-sm hover:shadow-2xl transition-all duration-500 rounded-[2.5rem] bg-white">
+                <div className="relative aspect-[4/5] overflow-hidden">
+                  <img src={expert.image} alt={expert.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-emerald/90 via-emerald/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-8 gap-4">
+                    <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white cursor-pointer hover:bg-white hover:text-emerald transition-colors">
+                      <Linkedin className="w-5 h-5" />
                     </div>
-                  ))}
+                    <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white cursor-pointer hover:bg-white hover:text-emerald transition-colors">
+                      <Mail className="w-5 h-5" />
+                    </div>
+                  </div>
                 </div>
-              </CardContent>
-            </Card>
-          </div>
+                <CardContent className="p-8 text-center md:text-left space-y-2">
+                  <div className="flex items-center justify-center md:justify-between mb-2">
+                    <p className="font-display font-bold text-2xl">{expert.name}</p>
+                    <Badge className="bg-emerald/5 text-emerald border-none hidden md:flex">CORE EXPERT</Badge>
+                  </div>
+                  <p className="text-emerald font-black uppercase tracking-widest text-[10px]">{expert.role}</p>
+                  <p className="text-sm text-muted-foreground leading-relaxed italic">{expert.credentials}</p>
+                </CardContent>
+              </Card>
+            </motion.div>
+          ))}
         </div>
       </section>
 
-      {/* 4. CALL TO ACTION */}
+      {/* 5. LOCAL IMPACT & SCIENTIFIC HUBS (BENTO REDESIGN) */}
+      {/* <section className="py-32 bg-[#0A5C36] text-white relative overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.05] pointer-events-none bg-pharma-grid" />
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="grid lg:grid-cols-2 gap-20 items-center mb-16">
+            <div className="space-y-6">
+              <Badge className="bg-teal/20 text-teal-300 border-none px-4 py-1 text-[10px] font-black tracking-widest uppercase">Local Impact</Badge>
+              <h2 className="text-4xl md:text-5xl font-display font-bold">Kingdom-Wide <br /> Scientific Presence.</h2>
+            </div>
+            <p className="text-emerald-50 text-xl leading-relaxed opacity-80">
+              Our regional hubs catalyze Saudi Vision 2030 by bringing high-precision analytical science to every corner of the Kingdom, from industrial zones to futuristic mega-projects.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-4 gap-6">
+            {[
+              { id: "rh", hub: "Riyadh Central", role: "Pharmaceutical HQ", capacity: "Full-Spectrum", size: "md:col-span-2" },
+              { id: "jh", hub: "Jeddah Logistics", role: "Vessel Sampling", capacity: "Fast-Track Port Access", size: "md:col-span-1" },
+              { id: "dh", hub: "Dammam Hub", role: "Industrial Corridor", capacity: "Polymer & Oil Specialists", size: "md:col-span-1" },
+              { id: "nh", hub: "NEOM Project Support", role: "Future Cities", capacity: "Sustainable Technology Support", size: "md:col-span-2" },
+              { id: "gh", hub: "National Network", role: "Impact Factor", capacity: "100% Regional Coverage", size: "md:col-span-2" }
+            ].map((node, i) => (
+              <motion.div
+                key={node.id}
+                className={`${node.size} bg-white/5 backdrop-blur-md rounded-[2.5rem] p-10 border border-white/10 hover:bg-white/10 transition-all group`}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1 }}
+              >
+                <div className="flex items-start justify-between mb-8">
+                  <div className="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-teal-300 group-hover:scale-110 transition-transform">
+                    {i === 3 ? <Target className="w-7 h-7" /> : <MapPin className="w-7 h-7" />}
+                  </div>
+                  <div className="text-right">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-emerald-300/60">Node {node.id.toUpperCase()}</span>
+                  </div>
+                </div>
+                <h3 className="text-3xl font-display font-bold mb-2">{node.hub}</h3>
+                <p className="text-teal-300 font-bold text-sm mb-6">{node.role}</p>
+                <div className="flex items-center gap-2 text-white/60 text-xs">
+                  <div className="w-2 h-2 rounded-full bg-emerald shadow-[0_0_8px_#10b981]" />
+                  {node.capacity}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section> */}
+
+      {/* 6. MILESTONE CHRONICLES */}
+
+      {/* 7. CTA - FINAL PRECISION CALL */}
       {/* <section className="py-32 container mx-auto px-4">
-        <div className="bg-emerald text-white rounded-[3rem] p-12 md:p-24 text-center relative overflow-hidden">
+        <div className="bg-[#0A5C36] text-white rounded-[3.5rem] p-16 md:p-32 text-center relative overflow-hidden shadow-2xl">
           <div className="absolute inset-0 molecular-bg opacity-10 pointer-events-none" />
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            className="max-w-2xl mx-auto space-y-10 relative z-10"
+            className="max-w-3xl mx-auto space-y-12 relative z-10"
           >
-            <h2 className="text-4xl md:text-6xl font-display font-bold">Believe in <span className="text-teal-300 italic">Precision.</span></h2>
-            <p className="text-xl text-emerald-100/70">
-              Join the hundreds of corporate partners who prioritize institutional quality and accurate data.
+            <h2 className="text-5xl md:text-7xl font-display font-bold tracking-tight">Experience <span className="text-teal-300 italic">Scientific Harmony.</span></h2>
+            <p className="text-xl text-emerald-100/70 leading-relaxed font-medium">
+              Join 500+ corporate partners who rely on our institutional quality and accredited precision to drive the future of Saudi industry.
             </p>
             <div className="flex flex-wrap justify-center gap-6">
-              <Button size="lg" className="h-16 px-10 bg-white text-emerald rounded-2xl font-bold text-lg hover:bg-white/90">
-                Request Consultation
+              <Button size="lg" className="h-16 px-12 bg-white text-emerald rounded-[1.5rem] font-bold text-lg hover:bg-emerald-50 transition-all hover:scale-105">
+                Request Global Consultation
               </Button>
-              <Button size="lg" variant="outline" className="h-16 px-10 border-white/20 text-white rounded-2xl font-bold text-lg hover:bg-white/10">
-                Our Services
-              </Button>
+              <Link href="/services">
+                <Button size="lg" variant="outline" className="h-16 px-12 border-white/20 text-white rounded-[1.5rem] font-bold text-lg hover:bg-white/10 transition-all">
+                  Explore Solution Grid
+                </Button>
+              </Link>
             </div>
           </motion.div>
         </div>
