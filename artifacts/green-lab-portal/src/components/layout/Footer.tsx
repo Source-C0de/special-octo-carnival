@@ -30,11 +30,9 @@ export function Footer() {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 mb-12">
           <div className="lg:col-span-2">
-            <Link href="/" className="font-display font-bold text-2xl tracking-tight flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-primary rounded-md flex items-center justify-center text-primary-foreground">
-                <FlaskConical className="w-5 h-5" />
-              </div>
-              Green Lab
+            <Link href="/" className="flex items-center gap-3 mb-4 transition-opacity hover:opacity-90">
+              <img src="/gl-3.jpeg" alt="Green Lab Logo" className="h-12 w-auto rounded-md object-cover" />
+              {/* <span className="font-display font-bold text-2xl tracking-tight">Green Lab</span> */}
             </Link>
             <p className="text-muted-foreground mb-6 max-w-sm">
               {t.tagline}

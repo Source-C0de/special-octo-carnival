@@ -12,13 +12,13 @@ export default function Layout({ children }: { children: ReactNode }) {
     <div className="min-h-[100dvh] flex flex-col font-sans">
       <Navbar />
       
-      <AnimatePresence mode="wait">
+      <AnimatePresence mode="popLayout" initial={false}>
         <motion.main 
           key={location}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.3 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.15, ease: "easeOut" }}
           className="flex-1 flex flex-col pt-16"
         >
           {children}

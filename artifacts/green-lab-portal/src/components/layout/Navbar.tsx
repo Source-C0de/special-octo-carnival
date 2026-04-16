@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
-import { Menu, X, Search, Globe, Moon, Sun, ChevronDown, FlaskConical, Microscope, Activity, Droplets } from "lucide-react";
+import { Menu, X, Search, Globe, Moon, Sun, ChevronDown, FlaskConical, Microscope, Activity, Droplets, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useTheme } from "@/components/theme-provider";
 import { useLanguage } from "@/components/language-provider";
+import { useAuth } from "@/hooks/use-auth";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import QuickQuoteModal from "@/components/shared/QuickQuoteModal";
 
@@ -14,14 +15,17 @@ export function Navbar() {
   const [location] = useLocation();
   const { theme, setTheme } = useTheme();
   const { language, setLanguage } = useLanguage();
+  const { isLoggedIn, logout } = useAuth();
   const [quoteOpen, setQuoteOpen] = useState(false);
 
   // Handle scroll effect
-  if (typeof window !== "undefined") {
-    window.addEventListener("scroll", () => {
+  useEffect(() => {
+    const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
-    });
-  }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const isHome = location === "/";
   const navBg = isScrolled ? "bg-background/95 backdrop-blur-md border-b shadow-sm" : isHome ? "bg-background/85 backdrop-blur-md border-b border-border/60" : "bg-background border-b";
@@ -66,6 +70,11 @@ export function Navbar() {
           <li><Link href="/services/s-04" className="hover:text-primary">Air Monitoring</Link></li>
         </ul>
       </div>
+      <div className="col-span-4 mt-6 pt-6 border-t border-emerald/5 flex justify-end">
+        <Link href="/services" className="text-primary font-bold flex items-center gap-2 group">
+          Explore Solutions Ecosystem <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+        </Link>
+      </div>
     </div>
   );
 
@@ -74,14 +83,13 @@ export function Navbar() {
       <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${navBg}`}>
         <div className="container mx-auto px-4 h-16 flex items-center justify-between gap-4">
           <div className="flex items-center gap-6 lg:gap-10">
-            <Link href="/" className={`font-display font-bold text-xl tracking-tight flex items-center gap-2 ${textColor}`}>
-              <div className="w-8 h-8 bg-primary rounded-md flex items-center justify-center text-primary-foreground">
-                <FlaskConical className="w-5 h-5" />
-              </div>
-              Green Lab
+            <Link href="/" className={`flex items-center gap-3 transition-opacity hover:opacity-90 ${textColor}`}>
+              <img src="/gl-3.jpeg" alt="Green Lab Logo" className="h-10 w-auto rounded-sm object-cover" />
+              {/* <span className="font-display font-bold text-xl tracking-tight">Green Lab</span> */}
             </Link>
 
             <nav className="hidden lg:flex items-center gap-6 text-sm font-medium">
+              <Link href="/about" className={textColor}>{t.about}</Link>
               <DropdownMenu>
                 <DropdownMenuTrigger className={`flex items-center gap-1 ${textColor} outline-none`}>
                   {t.services} <ChevronDown className="w-4 h-4" />
@@ -90,8 +98,9 @@ export function Navbar() {
                   {megaMenu}
                 </DropdownMenuContent>
               </DropdownMenu>
-              <Link href="/about" className={textColor}>{t.about}</Link>
-              <Link href="/dashboard" className={textColor}>{t.dashboard}</Link>
+              <Link href="/credentials" className={textColor}>Credentials</Link>
+              <Link href="/equipment" className={textColor}>{language === "en" ? "Equipment" : "الأجهزة"}</Link>
+              {/* <Link href="/dashboard" className={textColor}>{t.dashboard}</Link> */}
               <Link href="/contact" className={textColor}>{t.contact}</Link>
             </nav>
           </div>
@@ -99,27 +108,27 @@ export function Navbar() {
           <div className="hidden lg:flex items-center flex-1 max-w-sm ml-auto mr-4">
             <div className="relative w-full">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-              <Input 
-                placeholder={t.search} 
+              <Input
+                placeholder={t.search}
                 className="w-full pl-9 bg-background/50 focus-visible:ring-primary"
               />
             </div>
           </div>
 
           <div className="flex items-center gap-2">
-            <Button 
-              variant="ghost" 
-              size="icon" 
+            <Button
+              variant="ghost"
+              size="icon"
               className={textColor}
               onClick={() => setLanguage(language === "en" ? "ar" : "en")}
               title="Toggle Language"
             >
               <Globe className="w-4 h-4" />
             </Button>
-            
-            <Button 
-              variant="ghost" 
-              size="icon" 
+
+            <Button
+              variant="ghost"
+              size="icon"
               className={textColor}
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
             >
@@ -127,9 +136,15 @@ export function Navbar() {
             </Button>
 
             <div className="hidden md:flex gap-2">
-              <Button variant="outline" asChild>
-                <Link href="/dashboard">{t.login}</Link>
-              </Button>
+              {isLoggedIn ? (
+                <Button variant="outline" onClick={logout}>
+                  {language === "en" ? "Sign Out" : "تسجيل الخروج"}
+                </Button>
+              ) : (
+                <Button variant="outline" asChild>
+                  <Link href="/login">{t.login}</Link>
+                </Button>
+              )}
               <Button onClick={() => setQuoteOpen(true)}>{t.quote}</Button>
             </div>
 
@@ -141,29 +156,35 @@ export function Navbar() {
               </SheetTrigger>
               <SheetContent side={language === "ar" ? "right" : "left"} className="w-[300px] sm:w-[400px]">
                 <div className="flex flex-col gap-6 py-6">
-                  <Link href="/" className="font-display font-bold text-xl tracking-tight flex items-center gap-2">
-                    <div className="w-8 h-8 bg-primary rounded-md flex items-center justify-center text-primary-foreground">
-                      <FlaskConical className="w-5 h-5" />
-                    </div>
-                    Green Lab
+                  <Link href="/" className="flex items-center gap-3">
+                    <img src="/gl-2.jpg" alt="Green Lab Logo" className="h-10 w-auto rounded-sm object-cover" />
+                    <span className="font-display font-bold text-xl tracking-tight">Green Lab</span>
                   </Link>
-                  
+
                   <div className="relative w-full">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                     <Input placeholder={t.search} className="w-full pl-9" />
                   </div>
 
                   <nav className="flex flex-col gap-4 text-lg font-medium">
-                    <a href="/#services">{t.services}</a>
                     <Link href="/about">{t.about}</Link>
-                    <Link href="/dashboard">{t.dashboard}</Link>
+                    <Link href="/services">{t.services}</Link>
+                    <Link href="/credentials">{language === "en" ? "Credentials" : "الاعتمادات"}</Link>
+                    <Link href="/equipment">{language === "en" ? "Equipment" : "الأجهزة"}</Link>
+                    {/* <Link href="/dashboard">{t.dashboard}</Link> */}
                     <Link href="/contact">{t.contact}</Link>
                   </nav>
 
                   <div className="flex flex-col gap-2 mt-auto pt-6 border-t">
-                    <Button variant="outline" asChild className="w-full justify-start">
-                      <Link href="/dashboard">{t.login}</Link>
-                    </Button>
+                    {isLoggedIn ? (
+                      <Button variant="outline" onClick={logout} className="w-full justify-start">
+                        {language === "en" ? "Sign Out" : "تسجيل الخروج"}
+                      </Button>
+                    ) : (
+                      <Button variant="outline" asChild className="w-full justify-start">
+                        <Link href="/login">{t.login}</Link>
+                      </Button>
+                    )}
                     <Button className="w-full justify-start" onClick={() => setQuoteOpen(true)}>
                       {t.quote}
                     </Button>

@@ -11,9 +11,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useLanguage } from "@/components/language-provider";
 
-import { aboutMilestones, aboutValues, caseStudies, expertProfiles } from "@/lib/mock-data";
-
-
 // Reusable Counter Component
 const MetricCounter = ({ value, label, suffix = "" }: { value: number, label: string, suffix?: string }) => {
   const [count, setCount] = useState(0);
@@ -77,7 +74,7 @@ export default function About() {
     <div className={`min-h-screen bg-sand/30 font-sans overflow-hidden ${language === 'ar' ? 'rtl' : 'ltr'}`}>
 
       {/* 1. PREMIUM HERO SECTION */}
-      <section className="relative pt-16 pb-10 lg:pt-24 lg:pb-16 overflow-hidden border-b bg-gradient-to-b from-primary/10 via-background to-background">
+      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-white border-b">
         <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-pharma-grid" />
         <div className="container relative z-10 mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-20 items-center">
@@ -89,9 +86,6 @@ export default function About() {
               <Badge className="bg-emerald/10 text-emerald border-none px-4 py-1.5 text-xs font-bold uppercase tracking-widest">
                 {t.heroTag}
               </Badge>
-              {/* <Badge className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/10">
-                ISO/IEC 17025:2017 Certified | SFDA Approved
-              </Badge> */}
               <h1 className="text-5xl md:text-7xl font-display font-bold leading-[1.1] tracking-tight text-foreground">
                 {t.heroTitle.split(' ').map((word, i) => (
                   <span key={i} className={word === 'Tomorrow' || word === 'أفضل' ? 'text-emerald italic' : ''}>
@@ -142,27 +136,58 @@ export default function About() {
         </div>
       </section>
 
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="grid gap-5 md:grid-cols-3">
-            {aboutValues.map((value, index) => (
-              <motion.div key={value.title} initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.08 }}>
-                <Card className="h-full border-border/60 shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl">
-                  <CardContent className="p-6">
-                    <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                      {index === 0 ? <CheckCircle2 /> : index === 1 ? <Users /> : <ShieldCheck />}
-                    </div>
-                    <h2 className="text-xl font-semibold">{value.title}</h2>
-                    <p className="mt-3 text-muted-foreground leading-relaxed">{value.description}</p>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
+      {/* 2. VISION & VALUES BENTO GRID */}
+      <section className="py-32 container mx-auto px-4">
+        <div className="grid lg:grid-cols-3 gap-8">
+          {/* Large Vision Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            className="lg:col-span-2 bg-[#0A5C36] rounded-[3rem] p-16 text-white relative overflow-hidden flex flex-col justify-between min-h-[500px]"
+          >
+            <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-400/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2" />
+            <div className="relative z-10">
+              <div className="w-16 h-16 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center text-teal-300 mb-8">
+                <Target className="w-8 h-8" />
+              </div>
+              <h2 className="text-5xl font-display font-bold mb-6">{t.visionTitle}</h2>
+              <p className="text-xl text-emerald-100/70 max-w-xl leading-relaxed">
+                {t.visionDesc}
+              </p>
+            </div>
+
+            <div className="relative z-10 flex flex-wrap gap-4 pt-12 border-t border-white/10">
+              {["Vision 2030 Aligned", "Innovative Protocols", "Sustainable Science"].map((item) => (
+                <div key={item} className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full text-xs font-bold border border-white/10">
+                  <div className="w-1.5 h-1.5 rounded-full bg-teal-400" /> {item}
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Precision Values */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            className="bg-white rounded-[3rem] p-12 shadow-xl border border-emerald/5 flex flex-col justify-center gap-10"
+          >
+            <div className="space-y-6">
+              <div className="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center text-orange-600">
+                <Zap className="w-6 h-6" />
+              </div>
+              <h3 className="text-2xl font-bold">Uncompromising Integrity</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed">Honesty in reporting and transparency in methodologies are the cornerstones of our laboratory culture.</p>
+            </div>
+            <div className="space-y-6">
+              <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center text-blue-600">
+                <Globe className="w-6 h-6" />
+              </div>
+              <h3 className="text-2xl font-bold">Scientific Innovation</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed">Deploying the latest chromatography and spectrometry platforms to solve the most complex analytical challenges.</p>
+            </div>
+          </motion.div>
         </div>
       </section>
-
-      {/* 2. VISION & VALUES BENTO GRID */}
 
       {/* 3. THE JOURNEY TIMELINE (REMASTERED) */}
       <section className="bg-sand/40 py-32 border-y">
@@ -205,54 +230,8 @@ export default function About() {
         </div>
       </section>
 
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="mb-10 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-            <div>
-              <Badge variant="outline" className="mb-4">Leadership & Local Impact</Badge>
-              <h2 className="text-3xl md:text-4xl font-display font-bold">Experts, hubs, and proof of impact</h2>
-            </div>
-            <Button variant="outline" asChild>
-              <Link href="/contact">Meet All Experts</Link>
-            </Button>
-          </div>
-
-          <div className="grid gap-6 lg:grid-cols-[1fr_0.9fr]">
-            <div className="grid gap-5 md:grid-cols-3">
-              {expertProfiles.map((expert) => (
-                <Card key={expert.id} className="overflow-hidden transition-all hover:-translate-y-1 hover:shadow-xl">
-                  <img src={expert.image} alt={expert.name} className="h-48 w-full object-cover" loading="lazy" />
-                  <CardContent className="p-5">
-                    <p className="font-semibold">{expert.name}</p>
-                    <p className="text-sm text-primary">{expert.role}</p>
-                    <p className="mt-3 text-sm text-muted-foreground">{expert.credentials}</p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-
-            <Card className="bg-primary text-primary-foreground shadow-xl">
-              <CardContent className="p-7">
-                <div className="mb-6 flex items-center gap-3">
-                  <MapPin className="h-6 w-6 text-accent" />
-                  <h3 className="text-2xl font-display font-bold">Saudi service hubs</h3>
-                </div>
-                <div className="space-y-4">
-                  {["Riyadh central lab", "Jeddah sample logistics", "Dammam industrial corridor", "NEOM project support"].map((hub) => (
-                    <div key={hub} className="flex items-center justify-between rounded-xl bg-white/10 p-4">
-                      <span>{hub}</span>
-                      <Building2 className="h-5 w-5 text-accent" />
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
       {/* 4. CALL TO ACTION */}
-      {/* <section className="py-32 container mx-auto px-4">
+      <section className="py-32 container mx-auto px-4">
         <div className="bg-emerald text-white rounded-[3rem] p-12 md:p-24 text-center relative overflow-hidden">
           <div className="absolute inset-0 molecular-bg opacity-10 pointer-events-none" />
           <motion.div
@@ -274,7 +253,7 @@ export default function About() {
             </div>
           </motion.div>
         </div>
-      </section> */}
+      </section>
     </div>
   );
 }

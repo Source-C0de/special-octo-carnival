@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Clash+Display:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Clash+Display:wght@500;600;700&family=Tajawal:wght@400;500;700&display=swap');
 
 @import "tailwindcss";
 @import "tw-animate-css";
@@ -61,6 +61,11 @@
 
   --font-sans: var(--app-font-sans);
   --font-display: var(--app-font-display);
+  --font-arabic: 'Tajawal', sans-serif;
+
+  --color-sand: #F5F5F4;
+  --color-emerald: #0A5C36;
+  --color-teal: #00C9B1;
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -76,13 +81,7 @@
   --elevate-1: rgba(0,0,0, .03);
   --elevate-2: rgba(0,0,0, .08);
 
-  /* Deep Emerald Green #0A5C36 -> 152 80% 20% */
-  /* Clean White #FFFFFF -> 0 0% 100% */
-  /* Soft Gray #F8FAFC -> 210 40% 98% */
-  /* Accent Teal #00C9B1 -> 173 100% 39% */
-  /* Trust Blue #2563EB -> 221 83% 53% */
-
-  --background: 210 40% 98%; /* F8FAFC */
+  --background: 210 40% 98%; 
   --foreground: 222 47% 11%;
   
   --border: 214 32% 91%;
@@ -97,18 +96,15 @@
   --popover-foreground: 222 47% 11%;
   --popover-border: 214 32% 91%;
 
-  /* Primary: Deep Emerald */
   --primary: 152 80% 20%;
   --primary-foreground: 0 0% 100%;
 
-  /* Secondary: Soft Gray with slight emerald tint */
   --secondary: 152 10% 95%;
   --secondary-foreground: 152 80% 20%;
 
   --muted: 210 40% 96.1%;
   --muted-foreground: 215.4 16.3% 46.9%;
 
-  /* Accent: Teal */
   --accent: 173 100% 39%;
   --accent-foreground: 0 0% 100%;
 
@@ -124,30 +120,15 @@
   --sidebar-accent-foreground: 152 80% 20%;
   --sidebar-ring: 152 80% 20%;
 
-  --chart-1: 152 80% 20%; /* Emerald */
-  --chart-2: 173 100% 39%; /* Teal */
-  --chart-3: 221 83% 53%; /* Trust Blue */
-  --chart-4: 43 74% 66%; /* Gold Accent */
-  --chart-5: 215 16% 47%; /* Gray */
+  --chart-1: 152 80% 20%; 
+  --chart-2: 173 100% 39%; 
+  --chart-3: 221 83% 53%; 
+  --chart-4: 43 74% 66%; 
+  --chart-5: 215 16% 47%; 
 
   --app-font-sans: 'Manrope', sans-serif;
   --app-font-display: 'Clash Display', sans-serif;
   --radius: 0.5rem;
-
-  --sidebar-primary-border: hsl(var(--sidebar-primary));
-  --sidebar-primary-border: hsl(from hsl(var(--sidebar-primary)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
-  --sidebar-accent-border: hsl(var(--sidebar-accent));
-  --sidebar-accent-border: hsl(from hsl(var(--sidebar-accent)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
-  --primary-border: hsl(var(--primary));
-  --primary-border: hsl(from hsl(var(--primary)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
-  --secondary-border: hsl(var(--secondary));
-  --secondary-border: hsl(from hsl(var(--secondary)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
-  --muted-border: hsl(var(--muted));
-  --muted-border: hsl(from hsl(var(--muted)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
-  --accent-border: hsl(var(--accent));
-  --accent-border: hsl(from hsl(var(--accent)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
-  --destructive-border: hsl(var(--destructive));
-  --destructive-border: hsl(from hsl(var(--destructive)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
 }
 
 .dark {
@@ -162,7 +143,7 @@
   
   --border: 217.2 32.6% 17.5%;
   --input: 217.2 32.6% 17.5%;
-  --ring: 173 100% 39%; /* Teal ring in dark mode for pop */
+  --ring: 173 100% 39%;
 
   --card: 222 47% 11%;
   --card-foreground: 210 40% 98%;
@@ -172,7 +153,7 @@
   --popover-foreground: 210 40% 98%;
   --popover-border: 217.2 32.6% 17.5%;
 
-  --primary: 152 80% 40%; /* Lighter emerald for dark mode */
+  --primary: 152 80% 40%; 
   --primary-foreground: 0 0% 100%;
 
   --secondary: 217.2 32.6% 17.5%;
@@ -195,12 +176,6 @@
   --sidebar-accent: 217.2 32.6% 17.5%;
   --sidebar-accent-foreground: 210 40% 98%;
   --sidebar-ring: 173 100% 39%;
-
-  --chart-1: 152 80% 40%;
-  --chart-2: 173 100% 39%;
-  --chart-3: 221 83% 53%;
-  --chart-4: 43 74% 66%;
-  --chart-5: 215 16% 47%;
 }
 
 @layer base {
@@ -209,19 +184,33 @@
   }
 
   body {
-    @apply font-sans antialiased bg-background text-foreground;
+    @apply font-sans antialiased bg-background text-foreground scroll-smooth;
   }
   
   h1, h2, h3, h4, h5, h6 {
-    @apply font-display;
+    @apply font-display tracking-tight text-balance;
+  }
+
+  section {
+    scroll-margin-top: 4rem;
   }
 }
 
-.molecular-bg {
-  background-image: radial-gradient(hsl(var(--primary) / 0.1) 1px, transparent 1px);
-  background-size: 24px 24px;
-}
+@layer utilities {
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .molecular-bg {
+    background-image: radial-gradient(hsl(var(--primary) / 0.1) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
 
-.dark .molecular-bg {
-  background-image: radial-gradient(hsl(var(--primary) / 0.2) 1px, transparent 1px);
+  .dark .molecular-bg {
+    background-image: radial-gradient(hsl(var(--primary) / 0.2) 1px, transparent 1px);
+  }
 }

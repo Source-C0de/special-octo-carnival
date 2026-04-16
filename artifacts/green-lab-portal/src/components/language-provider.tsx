@@ -51,7 +51,7 @@ export function LanguageProvider({
       localStorage.setItem(storageKey, lang);
       setLanguage(lang);
     },
-    dir: language === "ar" ? "rtl" : "ltr",
+    dir: (language === "ar" ? "rtl" : "ltr") as "ltr" | "rtl",
   };
 
   return (
