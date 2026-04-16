@@ -90,7 +90,7 @@ export function Navbar() {
                   {megaMenu}
                 </DropdownMenuContent>
               </DropdownMenu>
-              <a href="/#about" className={textColor}>{t.about}</a>
+              <Link href="/about" className={textColor}>{t.about}</Link>
               <Link href="/dashboard" className={textColor}>{t.dashboard}</Link>
               <Link href="/contact" className={textColor}>{t.contact}</Link>
             </nav>
@@ -155,7 +155,7 @@ export function Navbar() {
 
                   <nav className="flex flex-col gap-4 text-lg font-medium">
                     <a href="/#services">{t.services}</a>
-                    <a href="/#about">{t.about}</a>
+                    <Link href="/about">{t.about}</Link>
                     <Link href="/dashboard">{t.dashboard}</Link>
                     <Link href="/contact">{t.contact}</Link>
                   </nav>

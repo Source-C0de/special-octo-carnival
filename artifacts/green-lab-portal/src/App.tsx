@@ -7,6 +7,7 @@ import Home from "@/pages/home";
 import ServiceDetail from "@/pages/service-detail";
 import Dashboard from "@/pages/dashboard";
 import Contact from "@/pages/contact";
+import About from "@/pages/about";
 import Layout from "@/components/layout/Layout";
 import { ThemeProvider } from "@/components/theme-provider";
 import { LanguageProvider } from "@/components/language-provider";
@@ -19,6 +20,7 @@ function Router() {
       <Switch>
         <Route path="/" component={Home} />
         <Route path="/services/:id" component={ServiceDetail} />
+        <Route path="/about" component={About} />
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/contact" component={Contact} />
         <Route component={NotFound} />
