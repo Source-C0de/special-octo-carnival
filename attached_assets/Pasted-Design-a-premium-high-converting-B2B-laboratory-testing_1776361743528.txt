@@ -1,0 +1,227 @@
+Design a premium, high-converting B2B laboratory testing website for "Green Lab" – a Saudi-based ISO/IEC 17025:2017 certified analytical laboratory serving pharmaceuticals, food, water, cosmetics, and industrial sectors.
+
+🎨 BRAND & AESTHETIC DIRECTION:
+
+- Primary Colors: Deep Emerald Green (#0A5C36) + Clean White (#FFFFFF) + Accent Teal (#00C9B1) + Trust Blue (#2563EB)
+
+- Secondary: Soft Gray backgrounds (#F8FAFC), subtle gold accents for premium certification badges
+
+- Typography: Modern sans-serif (Inter or Manrope) for body; bold geometric sans (Clash Display or Satoshi) for headings
+
+- Visual Style: "Scientific Minimalism" – clean, precise, data-forward with subtle laboratory-inspired textures (microscope patterns, molecular grids as subtle backgrounds)
+
+- Mood: Trustworthy, innovative, precision-focused, aligned with Saudi Vision 2030 aesthetics
+
+🎬 ANIMATION & INTERACTION SPECIFICATIONS:
+
+- Hero Section: Subtle particle animation resembling molecular structures + short looping background video of lab equipment in action (blurred, non-distracting)
+
+- Scroll-triggered fade-ins with 50ms stagger for service cards
+
+- Hover effects: Service cards lift with soft shadow + color accent border; buttons have micro-interaction (scale 1.03 + smooth color transition)
+
+- Page transitions: Smooth slide-fade between sections; no jarring reloads
+
+- Loading states: Animated progress bar styled as a "test tube filling" for authenticity
+
+- Micro-interactions: Toggle switches for industry filters, animated checkmarks for compliance badges
+
+📐 LAYOUT STRUCTURE (Desktop First, Mobile-Responsive):
+
+1. HEADER:
+
+   - Sticky transparent-to-solid on scroll
+
+   - Left: Green Lab logo + tagline "Global Quality, Local Vision"
+
+   - Center: Smart Search Bar with predictive autocomplete (supports chemical names, ISO codes, ASTM standards)
+
+   - Right: Language toggle (EN/AR), "Quick Quote" CTA button (persistent, high-contrast)
+
+   - Mega Menu trigger: "Services" → expands to 4-column grid: Chemical | Microbiological | Physical | Consulting, each with sub-items + icons
+
+2. HERO SECTION (Above the Fold):
+
+   - Full-width background: Short looping video (5-8 sec) of scientists in PPE working with precision equipment (blurred overlay for text readability)
+
+   - Overlay gradient: Dark-to-transparent for contrast
+
+   - Headline: "Precision Testing. Trusted Results. Global Standards."
+
+   - Subheadline: "ISO/IEC 17025:2017 Certified Laboratory Supporting Saudi Vision 2030"
+
+   - Primary CTA: "Get a Quick Quote" (teal button)
+
+   - Secondary CTA: "Explore Services" (outline button)
+
+   - Trust badges row below: ISO 17025, SFDA, SAC logos with hover tooltips
+
+3. INDUSTRY FILTER BAR (Post-Hero):
+
+   - Horizontal scrollable pills: "All" | "Food & Beverage" | "Pharmaceuticals" | "Cosmetics" | "Water & Environment" | "Construction" | "Oil & Gas"
+
+   - Selection dynamically filters visible services/content below
+
+   - Animated underline indicator + smooth content transition
+
+4. SERVICES SHOWCASE (Dynamic Grid):
+
+   - Card-based layout: 3-column desktop, 2-column tablet, 1-column mobile
+
+   - Each card includes:
+
+     • Service icon (custom line-art)
+
+     • Title + 1-line description
+
+     • Compliance badges row (ASTM, ISO, EPA icons)
+
+     • TAT indicator pill: "Standard: 3-5 days" / "Express: 24h" (color-coded)
+
+     • Hover: Expands to show "Sample Requirements" tooltip (weight/volume specs)
+
+     • "Learn More" arrow link
+
+5. TRUST & CREDIBILITY SECTION:
+
+   - Split layout: Left = "Document Vault" preview (PDF icons for certifications with download buttons); Right = "Expert Profiles" carousel (photo, name, credentials, years of experience)
+
+   - Below: Case Studies grid with thumbnail, industry tag, results metric ("Reduced compliance risk by 94%")
+
+   - Client testimonials: Quote cards with client photo, title, company logo, star rating
+
+6. INTERACTIVE EQUIPMENT GALLERY:
+
+   - Masonry grid of high-res lab equipment photos
+
+   - Click to open modal: 360° view (if available), technical specs table, accreditation scope
+
+   - Filter by: Testing Type | Industry | Certification Standard
+
+7. LOGISTICS & CLIENT PORTAL PREVIEW:
+
+   - Visual "How It Works" stepper: Submit Sample → Chain of Custody → Testing → QA Review → Report Delivery
+
+   - Animated connector lines between steps
+
+   - "Live Order Tracker" demo: Interactive mockup showing sample status with real-time update animation
+
+   - CTA: "Access Client Portal" (requires login) + "Submit Sample" (guest flow)
+
+8. COMPLIANCE DASHBOARD TEASER (Post-Login Feature Preview):
+
+   - Mockup of personalized dashboard showing:
+
+     • "Industry Profile" setup wizard preview
+
+     • Traffic-light status indicators (Green/Yellow/Red) for compliance
+
+     • Visual progress rings: "75% of ISO 17025 Requirements Met"
+
+     • "Missing Test Alerts" with high-contrast badge + "Add to Quote" button
+
+     • Regulatory countdown timer: "Re-validation due in 45 days"
+
+   - Note: "Available after secure login" badge
+
+9. CAREERS & ABOUT SECTION:
+
+   - "Facility Walkthrough": Embedded 360° tour or short video with play button overlay
+
+   - Core Values: 3-icon grid (Safety Shield | Precision Target | Ethics Handshake) with brief copy
+
+   - Job listings: Filterable table (Role | Department | Location | Apply) with "Lab Technician", "Quality Analyst", "Admin" tags
+
+10. FOOTER:
+
+    - 4-column: Services Quick Links | Industries Served | Resources (Blog, White Papers, Compliance Guides) | Contact
+
+    - Bottom bar: Social icons, copyright, "Powered by Saudi Vision 2030" badge
+
+    - Persistent "Quick Quote" floating button (mobile: bottom-fixed; desktop: right-side rail)
+
+📱 MOBILE OPTIMIZATION RULES:
+
+- Table-to-Card conversion: All data tables become swipeable cards with key metrics highlighted
+
+- Hamburger menu with accordion sub-menus for services
+
+- Touch-friendly CTAs (min 48px tap targets)
+
+- Compressed hero video → static image with play button for performance
+
+- Location map: Tap-to-open Google Maps with "Get Directions" CTA
+
+⚡ TECHNICAL UI/UX ESSENTIALS:
+
+- Performance: Lazy-load images/videos; compress technical diagrams; use SVG for icons
+
+- Accessibility: WCAG 2.1 AA compliant (color contrast, keyboard nav, ARIA labels)
+
+- Multilingual: EN/AR toggle with RTL layout support for Arabic
+
+- SEO: Semantic HTML structure, schema markup for LocalBusiness + MedicalOrganization
+
+- Security: SSL badge visible; client portal uses 2FA indicator
+
+🎯 CONVERSION OPTIMIZATION ELEMENTS:
+
+- Contextual contact forms: Auto-populate "Inquiry About: [Current Service Page]"
+
+- Exit-intent modal: "Need Help Choosing a Test?" with chatbot trigger
+
+- Live Chat widget: Bottom-right, staffed during business hours (KSA time)
+
+- "Quick Quote" sticky button: Always visible, opens modal with minimal fields (Name, Email, Service Interest, Upload Sample Specs optional)
+
+- Location map with directions: Embedded Google Map + "Hand-Deliver Samples" instructions
+
+✨ SPECIAL TOUCHES:
+
+- Custom cursor: Subtle "pipette" icon on interactive elements (desktop only)
+
+- Scroll progress indicator: Thin teal line at top of viewport
+
+- Dark mode toggle: For lab professionals working in low-light environments
+
+- "Compliance Gap" visualizer: Interactive comparison table "Required vs. Completed Tests" with export to PDF option
+
+🔗 CONTENT TONE & MESSAGING:
+
+- Voice: Authoritative yet approachable; scientific precision without jargon overload
+
+- Key phrases to feature: "Global Quality, Local Vision", "Excellence and Speed in Achievement", "Your Partner in Compliance"
+
+- Avoid: Overly promotional language; focus on trust, accuracy, partnership
+
+- Include Saudi Vision 2030 alignment subtly in footer/about sections
+
+📐 DELIVERABLES REQUESTED:
+
+1. Desktop (1440px) + Mobile (375px) high-fidelity mockups of key pages: Home, Service Detail, Client Dashboard, Contact
+
+2. Interactive prototype with hover states, scroll animations, and mobile menu flow
+
+3. Style guide: Color palette, typography scale, button variants, icon set
+
+4. Animation spec sheet: Duration, easing, trigger conditions for all micro-interactions
+
+7. CLIENT PORTAL & COMPLIANCE ENGINE (Post-Login):
+
+Compliance Health Dashboard: A personalized view showing a "Compliance Health Score" based on the user's industry (Pharma/Food/etc).
+
+The Gap Analysis Tool: A side-by-side UI showing "Legally Required Tests" vs "Current Certificates." Missing tests are highlighted in Alert Red with an "Instant Book" CTA.
+
+Sample Journey Tracker: A high-fidelity visual stepper with live timestamps for each phase of testing.
+
+Analytical Trends: Interactive line charts allowing users to compare batch results over time (e.g., pH levels or microbial count over 6 months).
+
+8. REGIONAL & TECHNICAL OPTIMIZATION:
+
+RTL Perfection: Full layout mirroring for Arabic, ensuring typography (Manrope/Inter) scales correctly for localized scripts.
+
+Hybrid Calendar: Integration of Hijri/Gregorian dates for sample scheduling.
+
+B2B Connectivity: Floating WhatsApp Business API integration and a "Request a Visit" feature for onsite sample collection.
+
+Document Automation: Automatic PDF generation for "Chain of Custody" forms and "Certificate of Analysis" (CoA) with digital signatures/QR codes for verification.

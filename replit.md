@@ -4,6 +4,10 @@
 
 pnpm workspace monorepo using TypeScript. Each package manages its own dependencies.
 
+## Artifacts
+
+- **Green Lab Client Portal** (`artifacts/green-lab-portal`, preview path `/`): frontend-only React/Vite client portal and compliance engine for a Saudi ISO/IEC 17025 analytical laboratory. Uses local mock data only; no backend/database calls are required for the portal experience. Includes public marketing/service pages, service detail pages, a mock client dashboard, compliance gap analysis, sample tracker, analytical trends, document export interactions, RTL language toggle, dark mode, quick quote/contact flows, and responsive mobile layouts.
+
 ## Stack
 
 - **Monorepo tool**: pnpm workspaces
@@ -15,6 +19,7 @@ pnpm workspace monorepo using TypeScript. Each package manages its own dependenc
 - **Validation**: Zod (`zod/v4`), `drizzle-zod`
 - **API codegen**: Orval (from OpenAPI spec)
 - **Build**: esbuild (CJS bundle)
+- **Frontend app**: React 18 + Vite, Tailwind CSS, shadcn/ui, Framer Motion, Recharts, Lucide React, wouter
 
 ## Key Commands
 
