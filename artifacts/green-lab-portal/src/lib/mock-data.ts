@@ -160,3 +160,41 @@ export const testimonials = [
     rating: 5
   }
 ];
+
+export const aboutMilestones = [
+  {
+    year: "2012",
+    title: "Green Lab founded",
+    description: "Established to bring Saudi clients faster access to global-grade analytical testing.",
+  },
+  {
+    year: "2018",
+    title: "ISO/IEC 17025:2017 certified",
+    description: "Expanded accredited capabilities across chemical, microbiological, and physical testing.",
+  },
+  {
+    year: "2021",
+    title: "SFDA-aligned expansion",
+    description: "Strengthened compliance support for regulated industries serving the Kingdom.",
+  },
+  {
+    year: "2030",
+    title: "Vision 2030 partnership",
+    description: "Supporting national transformation with precision, speed, and scientific trust.",
+  },
+];
+
+export const aboutValues = [
+  {
+    title: "Precision with purpose",
+    description: "Every result is handled with scientific discipline and commercial urgency.",
+  },
+  {
+    title: "Local partnership",
+    description: "We work closely with Saudi teams to reduce risk and move faster with confidence.",
+  },
+  {
+    title: "Trusted compliance",
+    description: "Our systems are built for regulated industries that need proof, traceability, and clarity.",
+  },
+];

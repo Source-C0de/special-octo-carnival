@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useLanguage } from "@/components/language-provider";
-import { services, industries, caseStudies, expertProfiles, testimonials } from "@/lib/mock-data";
+import { services, industries, caseStudies, expertProfiles, testimonials, aboutMilestones, aboutValues } from "@/lib/mock-data";
 
 export default function Home() {
   const { language } = useLanguage();
@@ -190,6 +190,55 @@ export default function Home() {
                 </div>
               </motion.div>
             </div>
+          </motion.div>
+        </div>
+      </section>
+
+      <section className="py-24 border-y bg-gradient-to-b from-primary/5 to-background">
+        <div className="container mx-auto px-4">
+          <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] items-start">
+            <div className="space-y-6">
+              <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-sm font-medium text-primary">
+                About Green Lab
+              </div>
+              <h2 className="text-3xl md:text-5xl font-display font-bold leading-tight">
+                Green Lab: Your Gateway to Global Quality with a Local Vision
+              </h2>
+              <p className="max-w-2xl text-lg text-muted-foreground leading-relaxed">
+                With a vision that combines innovation and precision, Green Lab offers advanced analytical solutions across pharmaceuticals, food, water, cosmetics, and industrial sectors — enhancing compliance, accelerating decisions, and supporting Saudi Vision 2030.
+              </p>
+              <div className="grid gap-4 md:grid-cols-3">
+                {aboutValues.map((value) => (
+                  <Card key={value.title} className="border-border/60 bg-background/80 shadow-sm">
+                    <CardContent className="p-5 space-y-2">
+                      <p className="font-semibold text-foreground">{value.title}</p>
+                      <p className="text-sm text-muted-foreground leading-relaxed">{value.description}</p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+
+            <Card className="border-primary/15 shadow-xl bg-background/90">
+              <CardHeader>
+                <CardTitle className="font-display text-2xl">Milestone timeline</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {aboutMilestones.map((item, index) => (
+                  <div key={item.title} className="flex gap-4">
+                    <div className="flex flex-col items-center">
+                      <div className="w-3 h-3 rounded-full bg-primary mt-2" />
+                      {index < aboutMilestones.length - 1 && <div className="w-px flex-1 bg-primary/20" />}
+                    </div>
+                    <div className="pb-6">
+                      <p className="text-sm font-medium text-primary">{item.year}</p>
+                      <p className="font-semibold">{item.title}</p>
+                      <p className="text-sm text-muted-foreground">{item.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
           </motion.div>
         </div>
       </section>
