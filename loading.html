@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GreenLab — Loading</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a1a0f;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Sora', sans-serif;
+            overflow: hidden;
+        }
+
+        /* Radial ambient glow */
+        body::before {
+            content: '';
+            position: fixed;
+            width: 700px;
+            height: 700px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(34, 120, 60, 0.18) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            animation: pulseGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes pulseGlow {
+
+            0%,
+            100% {
+                opacity: 0.6;
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.1);
+            }
+        }
+
+        .scene {
+            position: relative;
+            width: 320px;
+            height: 320px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ── PHASE 1: Circle ring ── */
+        .layer-circle {
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            opacity: 0;
+            transform: scale(0.6) rotate(-90deg);
+            animation: revealCircle 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards;
+            filter: drop-shadow(0 0 24px rgba(100, 200, 140, 0.35));
+        }
+
+        .layer-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: brightness(0) saturate(100%) invert(56%) sepia(60%) saturate(400%) hue-rotate(90deg) brightness(1.1);
+        }
+
+        @keyframes revealCircle {
+            0% {
+                opacity: 0;
+                transform: scale(0.5) rotate(-90deg);
+            }
+
+            60% {
+                opacity: 1;
+                transform: scale(1.08) rotate(8deg);
+            }
+
+            80% {
+                transform: scale(0.97) rotate(-3deg);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        /* ── PHASE 2: Dot network ── */
+        .layer-dots {
+            position: absolute;
+            width: 240px;
+            height: 110px;
+            opacity: 0;
+            transform: scaleX(0.2);
+            animation: revealDots 1s cubic-bezier(0.22, 1, 0.36, 1) 1.7s forwards;
+            filter: drop-shadow(0 0 12px rgba(100, 200, 140, 0.25));
+        }
+
+        .layer-dots img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: brightness(0) saturate(100%) invert(56%) sepia(60%) saturate(400%) hue-rotate(90deg) brightness(1.1);
+        }
+
+        @keyframes revealDots {
+            0% {
+                opacity: 0;
+                transform: scaleX(0.1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scaleX(1.06);
+            }
+
+            75% {
+                transform: scaleX(0.97);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scaleX(1);
+            }
+        }
+
+        /* ── PHASE 3: Microscope ── */
+        .layer-micro {
+            position: absolute;
+            width: 90px;
+            height: 110px;
+            bottom: 60px;
+            right: 56px;
+            opacity: 0;
+            transform: translateY(30px) scale(0.5);
+            animation: revealMicro 1s cubic-bezier(0.22, 1, 0.36, 1) 3s forwards;
+            filter: drop-shadow(0 0 18px rgba(30, 120, 200, 0.4));
+        }
+
+        .layer-micro img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        @keyframes revealMicro {
+            0% {
+                opacity: 0;
+                transform: translateY(40px) scale(0.4);
+            }
+
+            60% {
+                opacity: 1;
+                transform: translateY(-8px) scale(1.08);
+            }
+
+            80% {
+                transform: translateY(4px) scale(0.97);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* ── PHASE 4: Final flash & settle ── */
+        .flash-ring {
+            position: absolute;
+            width: 230px;
+            height: 230px;
+            border-radius: 50%;
+            border: 2px solid rgba(100, 220, 150, 0);
+            opacity: 0;
+            animation: flashRing 0.8s ease-out 4.2s forwards;
+        }
+
+        @keyframes flashRing {
+            0% {
+                opacity: 0;
+                transform: scale(0.9);
+                border-color: rgba(100, 220, 150, 0.8);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.3);
+                border-color: rgba(100, 220, 150, 0.3);
+            }
+
+            100% {
+                opacity: 0;
+                transform: scale(1.6);
+                border-color: rgba(100, 220, 150, 0);
+            }
+        }
+
+        /* ── Text & brand ── */
+        .brand {
+            margin-top: 36px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(14px);
+            animation: revealBrand 1s ease-out 4s forwards;
+        }
+
+        @keyframes revealBrand {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .brand-name {
+            font-family: 'Sora', sans-serif;
+            font-weight: 700;
+            font-size: 2.4rem;
+            letter-spacing: 0.06em;
+            color: #fff;
+        }
+
+        .brand-name span {
+            color: #4cd97a;
+        }
+
+        .brand-tagline {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.68rem;
+            letter-spacing: 0.22em;
+            color: rgba(120, 200, 140, 0.6);
+            text-transform: uppercase;
+            margin-top: 6px;
+        }
+
+        /* ── Progress bar ── */
+        .progress-track {
+            width: 200px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.07);
+            border-radius: 2px;
+            margin: 28px auto 0;
+            opacity: 0;
+            animation: revealBrand 0.6s ease-out 0.5s forwards;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #2d7a4f, #4cd97a);
+            border-radius: 2px;
+            animation: fillBar 4.2s cubic-bezier(0.4, 0, 0.2, 1) 0.8s forwards;
+        }
+
+        @keyframes fillBar {
+            0% {
+                width: 0%;
+            }
+
+            20% {
+                width: 22%;
+            }
+
+            45% {
+                width: 48%;
+            }
+
+            70% {
+                width: 72%;
+            }
+
+            90% {
+                width: 88%;
+            }
+
+            100% {
+                width: 100%;
+            }
+        }
+
+        /* ── Particle dots ── */
+        .particles {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(76, 217, 122, 0.25);
+            animation: floatParticle linear infinite;
+        }
+
+        @keyframes floatParticle {
+            from {
+                transform: translateY(110vh) scale(0);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+                transform: translateY(90vh) scale(1);
+            }
+
+            90% {
+                opacity: 0.4;
+            }
+
+            to {
+                transform: translateY(-10vh) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        /* status text */
+        .status-text {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.62rem;
+            color: rgba(76, 217, 122, 0.5);
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            margin-top: 12px;
+            min-height: 1em;
+            text-align: center;
+            opacity: 0;
+            animation: revealBrand 0.5s ease-out 1s forwards;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="particles" id="particles"></div>
+
+    <div class="scene">
+        <div class="flash-ring"></div>
+
+        <!-- Layer 1: Circle -->
+        <div class="layer-circle">
+            <img src="circle.png" alt="ring">
+        </div>
+
+        <!-- Layer 2: Dot network (centered over circle) -->
+        <div class="layer-dots">
+            <img src="dot.png" alt="network">
+        </div>
+
+        <!-- Layer 3: Microscope -->
+        <div class="layer-micro">
+            <img src="micro.png" alt="microscope">
+        </div>
+    </div>
+
+    <div class="brand">
+        <div class="brand-name">Green<span>Lab</span></div>
+        <div class="brand-tagline">Science · Innovation · Discovery</div>
+    </div>
+
+    <div class="progress-track">
+        <div class="progress-bar"></div>
+    </div>
+
+    <div class="status-text" id="statusText">Initializing…</div>
+
+    <script>
+        // Particles
+        const container = document.getElementById('particles');
+        for (let i = 0; i < 22; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            const size = Math.random() * 5 + 2;
+            p.style.cssText = `
+      width: ${size}px;
+      height: ${size}px;
+      left: ${Math.random() * 100}%;
+      animation-duration: ${Math.random() * 8 + 6}s;
+      animation-delay: ${Math.random() * 5}s;
+    `;
+            container.appendChild(p);
+        }
+
+        // Status messages
+        const messages = [
+            { t: 800, msg: 'Loading modules…' },
+            { t: 1800, msg: 'Connecting network…' },
+            { t: 3100, msg: 'Calibrating instrument…' },
+            { t: 4100, msg: 'Ready.' },
+        ];
+
+        const statusEl = document.getElementById('statusText');
+        messages.forEach(({ t, msg }) => {
+            setTimeout(() => { statusEl.textContent = msg; }, t);
+        });
+    </script>
+
+</body>
+
+</html>
