@@ -1,16 +1,316 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
+<html lang="en" dir="rtl">
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
-    <title>Green Lab Client Portal</title>
+    <title>Green Lab - Client Portal</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  </head>
-  <body>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@300;400;600;700&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <style id="loader-styles">
+        /* ── Loading screen ── */
+        #loading-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            background: #ffffff;
+            /* Use white to seamlessly match the JPEG background */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Sora', sans-serif;
+            overflow: hidden;
+            direction: ltr;
+        }
+
+        /* Smooth fade-out triggered by React at 2.5s */
+        #loading-screen.fade-out {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+            pointer-events: none;
+        }
+
+        /* Radial ambient glow (soft emerald glow for white bg) */
+        #loading-screen::before {
+            content: '';
+            position: absolute;
+            width: 700px;
+            height: 700px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(10, 92, 54, 0.05) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            animation: pulseGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes pulseGlow {
+
+            0%,
+            100% {
+                opacity: 0.6;
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.1);
+            }
+        }
+
+        #loading-screen .scene {
+            position: relative;
+            width: 260px;
+            height: 260px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ── Single Logo Layer ── */
+        #loading-screen .layer-logo {
+            width: 180px;
+            height: 180px;
+            opacity: 0;
+            transform: scale(0.8);
+            /* Complete animation by 0.8s */
+            animation: revealLogo 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0s forwards;
+            filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.05));
+        }
+
+        #loading-screen .layer-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 50%;
+            filter: brightness(1.25) contrast(1.4);
+            mix-blend-mode: multiply;
+        }
+
+        @keyframes revealLogo {
+            0% {
+                opacity: 0;
+                transform: scale(0.7) translateY(20px);
+            }
+
+            60% {
+                opacity: 1;
+                transform: scale(1.05) translateY(-5px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        /* ── Text & brand image (s.jpeg) ── */
+        #loading-screen .brand {
+            margin-top: 10px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(14px);
+            /* Delays appearance until 0.6s and takes 0.6s */
+            animation: revealBrand 0.6s ease-out 0.6s forwards;
+            display: flex;
+            justify-content: center;
+        }
+
+        #loading-screen .brand img {
+            max-width: 260px;
+            height: auto;
+            object-fit: contain;
+            filter: brightness(1.25) contrast(1.4);
+            mix-blend-mode: multiply;
+        }
+
+        @keyframes revealBrand {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ── Progress bar ── */
+        #loading-screen .progress-track {
+            width: 200px;
+            height: 2px;
+            background: rgba(10, 92, 54, 0.1);
+            border-radius: 2px;
+            margin: 28px auto 0;
+            opacity: 0;
+            /* Syncs with 0.4s delay */
+            animation: revealBrand 0.4s ease-out 0.4s forwards;
+            overflow: hidden;
+        }
+
+        #loading-screen .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #0A5C36, #00C9B1);
+            border-radius: 2px;
+            /* Matches precisely the 2.5s timeline (starts 0.4s, lengths 1.8s => finishes 2.2s) */
+            animation: fillBar 1.8s cubic-bezier(0.4, 0, 0.2, 1) 0.4s forwards;
+        }
+
+        @keyframes fillBar {
+            0% {
+                width: 0%;
+            }
+
+            20% {
+                width: 22%;
+            }
+
+            45% {
+                width: 48%;
+            }
+
+            70% {
+                width: 72%;
+            }
+
+            90% {
+                width: 88%;
+            }
+
+            100% {
+                width: 100%;
+            }
+        }
+
+        /* ── Particle dots ── */
+        #loading-screen .particles {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        #loading-screen .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(10, 92, 54, 0.15);
+            animation: floatParticle linear infinite;
+        }
+
+        @keyframes floatParticle {
+            from {
+                transform: translateY(110vh) scale(0);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+                transform: translateY(90vh) scale(1);
+            }
+
+            90% {
+                opacity: 0.4;
+            }
+
+            to {
+                transform: translateY(-10vh) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        /* status text */
+        #loading-screen .status-text {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.62rem;
+            color: rgba(10, 92, 54, 0.5);
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            margin-top: 12px;
+            min-height: 1em;
+            text-align: center;
+            opacity: 0;
+            /* Pops in at 0.6s quickly */
+            animation: revealBrand 0.4s ease-out 0.6s forwards;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loading screen (OUTSIDE React root so fade-out class works) -->
+    <div id="loading-screen">
+        <div class="particles" id="particles"></div>
+
+        <div class="scene">
+            <!-- Single logo image integration -->
+            <div class="layer-logo">
+                <img src="/logo/gl-100.jpeg" alt="Green Lab Logo">
+            </div>
+        </div>
+
+        <div class="brand">
+            <img src="/logo/s.jpeg" alt="Science Innovation Discovery">
+        </div>
+
+        <div class="progress-track">
+            <div class="progress-bar"></div>
+        </div>
+
+        <div class="status-text" id="statusText">Initializing…</div>
+    </div>
+
+    <!-- React mounts here -->
     <div id="root"></div>
+
+    <!-- Loading JS (particles + status messages) -->
+    <script>
+        // Use an IIFE so variables don't pollute global namespace since React is coming
+        (function () {
+            // Particles
+            const container = document.getElementById('particles');
+            if (container) {
+                for (let i = 0; i < 22; i++) {
+                    const p = document.createElement('div');
+                    p.className = 'particle';
+                    const size = Math.random() * 5 + 2;
+                    p.style.cssText = `
+                    width: ${size}px;
+                    height: ${size}px;
+                    left: ${Math.random() * 100}%;
+                    animation-duration: ${Math.random() * 8 + 6}s;
+                    animation-delay: ${Math.random() * 5}s;
+                    `;
+                    container.appendChild(p);
+                }
+            }
+
+            // Status messages compressed to finish by ~2100ms
+            const messages = [
+                { t: 400, msg: 'Loading modules…' },
+                { t: 800, msg: 'Connecting network…' },
+                { t: 1200, msg: 'Calibrating instrument…' },
+                { t: 1600, msg: 'Ready.' },
+            ];
+
+            const statusEl = document.getElementById('statusText');
+            if (statusEl) {
+                messages.forEach(({ t, msg }) => {
+                    setTimeout(() => {
+                        if (document.getElementById('statusText')) {
+                            statusEl.textContent = msg;
+                        }
+                    }, t);
+                });
+            }
+        })();
+    </script>
+
     <script type="module" src="/src/main.tsx"></script>
-  </body>
+</body>
+
 </html>

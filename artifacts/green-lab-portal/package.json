@@ -73,5 +73,9 @@
     "vite": "^7.3.0",
     "wouter": "^3.3.5",
     "zod": "^3.25.76"
+  },
+  "dependencies": {
+    "dotted-map": "^3.1.0",
+    "motion": "^12.38.0"
   }
 }

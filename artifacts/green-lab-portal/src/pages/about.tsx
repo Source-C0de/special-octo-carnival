@@ -46,10 +46,51 @@ const MetricCounter = ({ value, label, suffix = "" }: { value: number, label: st
   );
 };
 
+const milestones = [
+  {
+    year: "2018",
+    title: { en: "The Foundation", ar: "التأسيس" },
+    desc: "Laid the first stones of Saudi-owned precision testing.",
+    icon: Beaker,
+  },
+  {
+    year: "2019",
+    title: { en: "Accreditation Leap", ar: "قفزة الاعتماد" },
+    desc: "ISO/IEC 17025 certification achieved.",
+    icon: Award,
+  },
+  {
+    year: "2021",
+    title: { en: "State Recognition", ar: "الاعتراف الحكومي" },
+    desc: "SFDA authorization secured.",
+    icon: ClipboardCheck,
+  },
+  {
+    year: "2024",
+    title: { en: "Saudi Vision Era", ar: "عصر رؤية السعودية" },
+    desc: "Expansion into NEOM & futuristic projects.",
+    icon: Microscope,
+  },
+];
+
 export default function About() {
   const { language } = useLanguage();
   const { scrollYProgress } = useScroll();
   const yParallax = useTransform(scrollYProgress, [0, 1], [0, -200]);
+
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  // 🔥 Auto step progression
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveIndex((prev) =>
+        prev < milestones.length - 1 ? prev + 1 : prev
+      );
+    }, 1200);
+
+    return () => clearInterval(interval);
+  }, []);
+
 
   const t = {
     en: {
@@ -229,6 +270,125 @@ export default function About() {
           </div>
         </div>
       </section>
+      <section className="py-32 bg-white border-y overflow-hidden">
+        <div className="container mx-auto px-4">
+
+          {/* Header */}
+          <div className="text-center mb-24 space-y-4">
+            <Badge className="bg-primary/10 text-primary border-none text-[10px] font-black tracking-widest uppercase px-4 py-1">
+              {t.journeyTitle}
+            </Badge>
+            <h2 className="text-4xl md:text-5xl font-display font-bold">
+              From Inquiry to <span className="text-primary italic">Compliance.</span>
+            </h2>
+          </div>
+
+          {/* Timeline */}
+          <div className="relative">
+
+            {/* Vertical Line */}
+            <div className="absolute left-1/2 top-0 transform -translate-x-1/2 w-[2px] h-full bg-emerald/10">
+              <motion.div
+                className="w-full bg-emerald shadow-[0_0_20px_#10b981]"
+                initial={{ height: "0%" }}
+                whileInView={{ height: "100%" }}
+                transition={{ duration: 2, ease: "easeInOut" }}
+              />
+            </div>
+
+            {/* Steps */}
+            <div className="space-y-24">
+              {[
+                {
+                  id: "01",
+                  icon: MessageSquare,
+                  title: { en: "Consultation", ar: "الاستشارة" },
+                  desc: {
+                    en: "Strategic technical alignment.",
+                    ar: "التوافق الفني الاستراتيجي.",
+                  },
+                },
+                {
+                  id: "02",
+                  icon: ShieldCheck,
+                  title: { en: "Logistics", ar: "اللوجستيات" },
+                  desc: {
+                    en: "Secure sample chain-of-custody.",
+                    ar: "سلسلة الحيازة الآمنة للعينات.",
+                  },
+                },
+                {
+                  id: "03",
+                  icon: Microscope,
+                  title: { en: "Analysis", ar: "التحليل" },
+                  desc: {
+                    en: "High-precision instrumentation.",
+                    ar: "أجهزة عالية الدقة.",
+                  },
+                },
+                {
+                  id: "04",
+                  icon: ClipboardCheck,
+                  title: { en: "Verification", ar: "التحقق" },
+                  desc: {
+                    en: "Strict ISO/SFDA local audit.",
+                    ar: "تدقيق محلي صارم.",
+                  },
+                },
+                {
+                  id: "05",
+                  icon: FileText,
+                  title: { en: "Reporting", ar: "التقارير" },
+                  desc: {
+                    en: "Instant digital records.",
+                    ar: "سجلات رقمية فورية.",
+                  },
+                },
+              ].map((step, i) => {
+                const Icon = step.icon;
+                const isLeft = i % 2 === 0;
+
+                return (
+                  <motion.div
+                    key={step.id}
+                    initial={{ opacity: 0, x: isLeft ? -80 : 80 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6, delay: i * 0.2 }}
+                    className={`relative flex items-center ${isLeft ? "justify-start" : "justify-end"
+                      }`}
+                  >
+
+                    {/* Content Card */}
+                    <div className="w-full md:w-1/2 px-6">
+                      <div className="bg-white border border-emerald/10 rounded-2xl p-6 shadow-xl hover:shadow-emerald/10 transition-all group">
+
+                        <span className="text-[10px] font-black text-primary/40 uppercase tracking-widest">
+                          Phase {step.id}
+                        </span>
+
+                        <h4 className="text-xl font-bold mt-2">
+                          {step.title[language]}
+                        </h4>
+
+                        <p className="text-sm text-muted-foreground mt-2">
+                          {step.desc[language]}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Center Icon */}
+                    <div className="absolute left-1/2 transform -translate-x-1/2">
+                      <div className="w-20 h-20 rounded-2xl bg-white border-2 border-emerald/20 flex items-center justify-center text-emerald shadow-lg group-hover:scale-110 transition-all">
+                        <Icon className="w-8 h-8" />
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
 
       <section className="bg-sand/30 py-40 border-y">
         <div className="container mx-auto px-4 max-w-4xl">
@@ -264,6 +424,197 @@ export default function About() {
               </motion.div>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="bg-sand/30 py-40 border-y overflow-hidden">
+        <div className="container mx-auto px-4">
+
+          {/* Header */}
+          <div className="text-center mb-24 space-y-4">
+            <Badge
+              variant="outline"
+              className="border-emerald/20 text-emerald uppercase text-[10px] font-black tracking-[0.2em]"
+            >
+              {t.milestonesTitle}
+            </Badge>
+            <h2 className="text-5xl font-display font-bold">
+              Chronicles of Evolution
+            </h2>
+          </div>
+
+          {/* Timeline Wrapper */}
+          <div className="relative">
+
+            {/* Animated Line */}
+            <div className="absolute top-20 left-0 w-full h-[2px] bg-emerald/10">
+              <motion.div
+                className="h-full bg-gradient-to-r from-emerald via-green-400 to-emerald shadow-[0_0_20px_#10b981]"
+                initial={{ width: "0%" }}
+                whileInView={{ width: "100%" }}
+                transition={{ duration: 2, ease: "easeInOut" }}
+              />
+            </div>
+
+            {/* Horizontal Scroll Container */}
+            <div className="flex gap-16 overflow-x-auto pb-10 pt-32 snap-x snap-mandatory scrollbar-hide">
+
+              {[
+                {
+                  year: "2018",
+                  title: { en: "The Foundation", ar: "التأسيس" },
+                  desc: "Laid the first stones of Saudi-owned precision testing.",
+                  icon: Beaker,
+                },
+                {
+                  year: "2019",
+                  title: { en: "Accreditation Leap", ar: "قفزة الاعتماد" },
+                  desc: "Attained ISO/IEC 17025 certification across core scopes.",
+                  icon: Award,
+                },
+                {
+                  year: "2021",
+                  title: { en: "State Recognition", ar: "الاعتراف الحكومي" },
+                  desc: "SFDA authorization for drug and food safety analytics.",
+                  icon: ClipboardCheck,
+                },
+                {
+                  year: "2024",
+                  title: { en: "Saudi Vision Era", ar: "عصر رؤية السعودية" },
+                  desc: "Expansion into futurist projects and NEOM specialized support.",
+                  icon: Microscope,
+                },
+              ].map((milestone, i) => {
+                const Icon = milestone.icon;
+
+                return (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 60 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.2 }}
+                    className="relative min-w-[300px] max-w-[320px] snap-center group"
+                  >
+
+                    {/* Icon */}
+                    <div className="absolute -top-16 left-1/2 -translate-x-1/2">
+                      <div className="w-20 h-20 rounded-[2rem] bg-gradient-to-br from-emerald to-green-500 text-white flex items-center justify-center shadow-xl shadow-emerald/30 border-4 border-white group-hover:scale-110 transition-all">
+                        <Icon className="w-8 h-8" />
+                      </div>
+                    </div>
+
+                    {/* Card */}
+                    <div className="bg-white p-8 pt-14 rounded-[2rem] shadow-xl border border-emerald/5 
+                              hover:border-emerald/30 hover:shadow-emerald/10 
+                              transition-all duration-300 group-hover:-translate-y-3">
+
+                      <span className="text-emerald font-mono font-bold text-lg block mb-2">
+                        {milestone.year}
+                      </span>
+
+                      <h4 className="text-xl font-bold mb-3">
+                        {milestone.title[language]}
+                      </h4>
+
+                      <p className="text-muted-foreground text-sm leading-relaxed">
+                        {milestone.desc}
+                      </p>
+                    </div>
+
+                    {/* Glow Dot */}
+                    <div className="absolute top-[76px] left-1/2 -translate-x-1/2 w-3 h-3 bg-emerald rounded-full shadow-[0_0_10px_#10b981]" />
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-sand/30 py-40 border-y overflow-hidden">
+        <div className="container mx-auto px-4 text-center mb-24">
+          <h2 className="text-5xl font-display font-bold">
+            Chronicles of Evolution
+          </h2>
+        </div>
+
+        {/* Graph Flow */}
+        <div className="relative flex flex-col items-center gap-24">
+
+          {/* SVG Path (Graph Line) */}
+          <svg
+            className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-full"
+            viewBox="0 0 800 600"
+            fill="none"
+          >
+            <motion.path
+              d="M100 50 Q400 150 700 50 
+               Q400 300 100 250 
+               Q400 450 700 400"
+              stroke="url(#grad)"
+              strokeWidth="3"
+              strokeDasharray="2000"
+              strokeDashoffset="2000"
+              animate={{ strokeDashoffset: activeIndex >= 3 ? 0 : 2000 }}
+              transition={{ duration: 3 }}
+            />
+            <defs>
+              <linearGradient id="grad">
+                <stop offset="0%" stopColor="#10b981" />
+                <stop offset="100%" stopColor="#34d399" />
+              </linearGradient>
+            </defs>
+          </svg>
+
+          {/* Nodes */}
+          {milestones.map((item, i) => {
+            const Icon = item.icon;
+            const isActive = i <= activeIndex;
+
+            return (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, scale: 0.7 }}
+                animate={{
+                  opacity: isActive ? 1 : 0.3,
+                  scale: isActive ? 1 : 0.8,
+                }}
+                transition={{ duration: 0.5 }}
+                className={`relative flex items-center gap-6 ${i % 2 === 0 ? "flex-row" : "flex-row-reverse"
+                  }`}
+              >
+                {/* Node */}
+                <div
+                  className={`w-20 h-20 rounded-2xl flex items-center justify-center text-white shadow-xl transition-all
+                ${isActive
+                      ? "bg-gradient-to-br from-emerald to-green-500 shadow-emerald/40 animate-pulse"
+                      : "bg-gray-200"
+                    }`}
+                >
+                  <Icon className="w-8 h-8" />
+                </div>
+
+                {/* Card */}
+                <div
+                  className={`bg-white p-6 rounded-2xl shadow-lg border transition-all max-w-sm
+                ${isActive
+                      ? "border-emerald/20 opacity-100"
+                      : "opacity-40"
+                    }`}
+                >
+                  <span className="text-emerald font-mono font-bold block">
+                    {item.year}
+                  </span>
+                  <h4 className="font-bold text-lg mt-1">
+                    {item.title[language]}
+                  </h4>
+                  <p className="text-sm text-muted-foreground mt-2">
+                    {item.desc}
+                  </p>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
       </section>
 
@@ -395,6 +746,9 @@ export default function About() {
           </motion.div>
         </div>
       </section> */}
+
+
+
     </div>
   );
 }
