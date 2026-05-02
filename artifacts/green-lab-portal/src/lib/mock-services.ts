@@ -76,7 +76,7 @@ export const mockServices: Service[] = [
       en: "Protecting consumer health through rigorous food safety and quality testing.",
       ar: "حماية صحة المستهلك من خلال اختبارات صارمة لسلامة الأغذية وجودتها."
     },
-    image: "https://images.unsplash.com/photo-1579154217064-0a47b3842407?auto=format&fit=crop&q=80&w=800",
+    image: "/a/food.png",
     accent: "#0A5C36",
     texture: "food-leaf",
     size: "large",
@@ -122,7 +122,7 @@ export const mockServices: Service[] = [
       en: "Advanced microbiological analytics for food, water, and environmental samples.",
       ar: "تحليلات ميكروبيولوجية متقدمة لعينات الأغذية والمياه والبيئة."
     },
-    image: "https://images.unsplash.com/photo-1583912267550-d44d7a125600?auto=format&fit=crop&q=80&w=800",
+    image: "/a/microbiological.png",
     accent: "#00C9B1",
     texture: "water-ripple",
     size: "medium",
