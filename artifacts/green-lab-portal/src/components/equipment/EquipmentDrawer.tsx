@@ -1,4 +1,5 @@
 import { Equipment } from "@/lib/mock-equipment";
+import { motion } from "framer-motion";
 import { 
   Sheet, 
   SheetContent, 
@@ -35,12 +36,26 @@ export default function EquipmentDrawer({ item, open, onOpenChange }: EquipmentD
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side={language === 'ar' ? 'left' : 'right'} className="w-full sm:max-w-xl p-0 overflow-y-auto no-scrollbar border-emerald/10 bg-background/95 backdrop-blur-xl">
-        <div className="relative h-64 w-full">
-          <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
-          <div className="absolute bottom-6 left-6 right-6">
-            <Badge className="bg-teal text-white border-none mb-3">{item.heroMetric}</Badge>
-            <SheetTitle className="text-3xl font-display font-bold leading-tight">{item.name}</SheetTitle>
+        <div className="relative h-80 w-full overflow-hidden bg-gradient-to-b from-primary/5 to-background flex items-center justify-center border-b border-emerald/10" style={{ perspective: 1200 }}>
+          <motion.img 
+            src={item.image} 
+            alt={item.name} 
+            className="w-3/4 h-3/4 object-contain drop-shadow-2xl z-10" 
+            animate={{ 
+              y: [-10, 10, -10],
+              rotateX: [3, -3, 3],
+              rotateY: [-3, 3, -3]
+            }}
+            transition={{
+              duration: 8,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-primary/20 blur-[100px] rounded-full z-0 pointer-events-none" />
+          <div className="absolute bottom-6 left-6 right-6 z-20">
+            <Badge className="bg-primary text-white border-none mb-3 shadow-lg shadow-primary/20">{item.heroMetric}</Badge>
+            <SheetTitle className="text-3xl md:text-4xl font-display font-bold leading-tight">{item.name}</SheetTitle>
           </div>
         </div>
 

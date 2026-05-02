@@ -28,8 +28,8 @@ function AnimatedCounter({ value, label, prefix = "", suffix = "" }: { value: nu
 
   return (
     <div ref={nodeRef} className="flex flex-col items-center justify-center p-6 bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 shadow-xl hover:shadow-2xl relative overflow-hidden group transition-all duration-500">
-      <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-      <div className="text-5xl md:text-6xl font-display font-bold text-primary mb-2 flex items-center drop-shadow-sm">
+      <div className="absolute inset-0 bg-gradient-to-tr from-[#00C9B1]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      <div className="text-5xl md:text-6xl font-display font-bold text-[#00C9B1] mb-2 flex items-center drop-shadow-sm">
         {prefix}{count}{suffix}
       </div>
       <p className="text-xs md:text-sm uppercase tracking-[0.2em] text-muted-foreground font-semibold text-center mt-2 group-hover:text-foreground transition-colors">
@@ -38,6 +38,107 @@ function AnimatedCounter({ value, label, prefix = "", suffix = "" }: { value: nu
     </div>
   );
 }
+
+function ServiceCardHome({ service, index }: { service: any, index: number }) {
+  const [hovered, setHovered] = useState(false);
+
+  const getIcon = (iconName: string) => {
+    switch (iconName) {
+      case "FlaskConical": return <FlaskConical className="w-6 h-6" />;
+      case "Microscope": return <Microscope className="w-6 h-6" />;
+      case "Activity": return <Activity className="w-6 h-6" />;
+      case "Droplets": return <Droplets className="w-6 h-6" />;
+      default: return <FlaskConical className="w-6 h-6" />;
+    }
+  };
+
+  const getColors = (id: string) => {
+    const colors: Record<string, { bg: string, border: string, text: string }> = {
+      "s-01": { bg: "bg-emerald-50/50", border: "border-emerald-200", text: "text-emerald-600" },
+      "s-02": { bg: "bg-blue-50/50", border: "border-blue-200", text: "text-blue-600" },
+      "s-03": { bg: "bg-orange-50/50", border: "border-orange-200", text: "text-orange-600" },
+      "s-04": { bg: "bg-cyan-50/50", border: "border-cyan-200", text: "text-cyan-600" },
+      "s-05": { bg: "bg-rose-50/50", border: "border-rose-200", text: "text-rose-600" },
+      "s-06": { bg: "bg-purple-50/50", border: "border-purple-200", text: "text-purple-600" },
+    };
+    return colors[id] || colors["s-01"];
+  };
+
+  const colorSet = getColors(service.id);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: index * 0.1 }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      className="relative group h-full"
+    >
+      <Card className={`h-full relative overflow-hidden transition-all duration-500 border-2 ${colorSet.bg} ${colorSet.border} group-hover:shadow-2xl group-hover:-translate-y-2`}>
+        {/* SVG Flowing Border */}
+        <svg className="absolute inset-0 w-full h-full pointer-events-none z-10" preserveAspectRatio="none">
+          <motion.rect
+            x="0" y="0" width="100%" height="100%"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="3"
+            strokeDasharray="100, 1000"
+            className={`${colorSet.text} opacity-0 group-hover:opacity-100`}
+            animate={hovered ? { strokeDashoffset: [-1000, 0] } : {}}
+            transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+          />
+        </svg>
+
+        <CardHeader>
+          <div className={`w-14 h-14 rounded-2xl ${colorSet.bg} ${colorSet.text} flex items-center justify-center mb-4 shadow-inner border border-white/50 group-hover:scale-110 transition-transform duration-500`}>
+            {getIcon(service.icon)}
+          </div>
+          <CardTitle className="text-2xl font-display font-bold">{service.title}</CardTitle>
+        </CardHeader>
+
+        <CardContent className="space-y-6">
+          <p className="text-muted-foreground leading-relaxed">
+            {service.description}
+          </p>
+
+          <div className="flex flex-wrap gap-2">
+            {service.badges.map((b: string) => (
+              <Badge key={b} variant="outline" className={`border-none ${colorSet.bg} ${colorSet.text} font-bold text-[10px] uppercase tracking-wider`}>
+                {b}
+              </Badge>
+            ))}
+          </div>
+
+          <div className="flex items-center justify-between pt-6 border-t border-black/5">
+            <div className="flex flex-col">
+              <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-black">Accuracy</span>
+              <span className="font-bold text-sm">99.9% Reliable</span>
+            </div>
+            <div className="flex flex-col text-right">
+              <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-black">TAT</span>
+              <span className="font-bold text-sm text-[#00C9B1]">{service.tat.standard}</span>
+            </div>
+          </div>
+        </CardContent>
+
+        <CardFooter className="pt-0">
+          <Link href={`/services/${service.id}`} className="w-full">
+            <Button variant="ghost" className={`w-full justify-between rounded-xl group-hover:bg-white/80 ${colorSet.text} font-bold`}>
+              Explore Analytical Scope
+              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+            </Button>
+          </Link>
+        </CardFooter>
+      </Card>
+
+      {/* Background Glow */}
+      <div className={`absolute -inset-2 ${colorSet.bg} blur-2xl opacity-0 group-hover:opacity-20 transition-opacity rounded-[3rem] -z-10`} />
+    </motion.div>
+  );
+}
+
 
 export default function Home() {
   const [activeIndustry, setActiveIndustry] = useState("All");
@@ -87,7 +188,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary font-medium text-sm border border-primary/20 backdrop-blur-sm"
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#00C9B1]/10 text-[#00C9B1] font-medium text-sm border border-[#00C9B1]/20 backdrop-blur-sm"
             >
               <Award className="w-4 h-4" />
               ISO/IEC 17025:2017 Certified
@@ -106,7 +207,7 @@ export default function Home() {
               className="text-5xl md:text-6xl lg:text-7xl font-bold font-display leading-[1.1] tracking-tight"
             >
               <motion.span className="inline-block" variants={{ hidden: { opacity: 0, y: 30, filter: "blur(8px)" }, visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 3.6, ease: "easeOut" } } }}>Precision Testing.</motion.span> <br />
-              <motion.span className="inline-block text-primary" variants={{ hidden: { opacity: 0, y: 30, filter: "blur(8px)" }, visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 3.6, ease: "easeOut" } } }}>Trusted Results.</motion.span> <br />
+              <motion.span className="inline-block text-[#00C9B1]" variants={{ hidden: { opacity: 0, y: 30, filter: "blur(8px)" }, visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 3.6, ease: "easeOut" } } }}>Trusted Results.</motion.span> <br />
               <motion.span className="inline-block" variants={{ hidden: { opacity: 0, y: 30, filter: "blur(8px)" }, visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 3.6, ease: "easeOut" } } }}>Global Standards.</motion.span>
             </motion.h1>
 
@@ -125,17 +226,18 @@ export default function Home() {
               transition={{ duration: 0.5, delay: 0.3 }}
               className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start"
             >
-              <Button size="lg" className="w-full sm:w-auto text-base h-14 px-8 shadow-xl shadow-primary/20 hover:scale-[1.02] transition-transform">
+              <Button size="lg" className="w-full sm:w-auto text-base h-14 px-8 bg-[#00C9B1] hover:bg-[#00C9B1]/90 shadow-xl shadow-[#00C9B1]/20 hover:scale-[1.02] transition-transform">
                 Get a Quick Quote
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
-              <Button size="lg" variant="outline" className="w-full sm:w-auto text-base h-14 px-8 border-2" asChild>
-                <Link href="#services">Explore Services</Link>
+              <Button size="lg" variant="outline" className="w-full sm:w-auto text-base h-14 px-8 border-2 border-[#00C9B1]/10 text-primary" asChild>
+                <Link href="/services">Explore Services</Link>
               </Button>
               <Button size="lg" variant="secondary" className="w-full sm:w-auto text-base h-14 px-8" asChild>
                 <Link href="/about">About Green Lab</Link>
               </Button>
             </motion.div>
+
 
             <motion.div
               initial={{ opacity: 0 }}
@@ -163,102 +265,102 @@ export default function Home() {
               className="relative w-full max-w-lg mx-auto aspect-square"
               style={{ transformStyle: "preserve-3d" }}
             >
-              <motion.div 
+              <motion.div
                 className="w-full h-full"
                 whileHover={{ rotateX: 12, rotateY: -18, scale: 1.05, z: 30 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 style={{ transformStyle: "preserve-3d" }}
               >
-              <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-accent/20 rounded-full blur-3xl" />
-              <div className="relative h-full w-full border border-border/50 bg-card/40 backdrop-blur-xl rounded-2xl shadow-2xl p-6 flex flex-col gap-4 overflow-hidden">
-                <div className="flex items-center justify-between pb-4 border-b">
-                  <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-full bg-red-500" />
-                    <div className="w-3 h-3 rounded-full bg-yellow-500" />
-                    <div className="w-3 h-3 rounded-full bg-green-500" />
-                  </div>
-                  <Badge variant="outline" className="font-mono">Portal Preview</Badge>
-                </div>
-
-                <div className="flex-1 space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h4 className="font-medium text-sm text-muted-foreground">Compliance Score</h4>
-                      <p className="text-3xl font-display font-bold text-primary">94<span className="text-xl text-muted-foreground">%</span></p>
+                <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-accent/20 rounded-full blur-3xl" />
+                <div className="relative h-full w-full border border-border/50 bg-card/40 backdrop-blur-xl rounded-2xl shadow-2xl p-6 flex flex-col gap-4 overflow-hidden">
+                  <div className="flex items-center justify-between pb-4 border-b">
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full bg-red-500" />
+                      <div className="w-3 h-3 rounded-full bg-yellow-500" />
+                      <div className="w-3 h-3 rounded-full bg-green-500" />
                     </div>
-                    <div className="w-16 h-16 rounded-full border-4 border-primary border-t-accent flex items-center justify-center">
-                      <span className="font-bold">A+</span>
-                    </div>
+                    <Badge variant="outline" className="font-mono">Portal Preview</Badge>
                   </div>
 
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span>Heavy Metals Analysis</span>
-                      <span className="text-green-500 font-medium">Compliant</span>
+                  <div className="flex-1 space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h4 className="font-medium text-sm text-muted-foreground">Compliance Score</h4>
+                        <p className="text-3xl font-display font-bold text-primary">94<span className="text-xl text-muted-foreground">%</span></p>
+                      </div>
+                      <div className="w-16 h-16 rounded-full border-4 border-primary border-t-accent flex items-center justify-center">
+                        <span className="font-bold">A+</span>
+                      </div>
                     </div>
-                    <div className="h-2 bg-secondary rounded-full overflow-hidden">
-                      <motion.div
-                        initial={{ width: 0 }}
-                        animate={mounted ? { width: "100%" } : {}}
-                        transition={{ duration: 1, delay: 0.5 }}
-                        className="h-full bg-green-500"
-                      />
+
+                    <div className="space-y-2">
+                      <div className="flex justify-between text-sm">
+                        <span>Heavy Metals Analysis</span>
+                        <span className="text-green-500 font-medium">Compliant</span>
+                      </div>
+                      <div className="h-2 bg-secondary rounded-full overflow-hidden">
+                        <motion.div
+                          initial={{ width: 0 }}
+                          animate={mounted ? { width: "100%" } : {}}
+                          transition={{ duration: 1, delay: 0.5 }}
+                          className="h-full bg-green-500"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <div className="flex justify-between text-sm">
+                        <span>Microbial Limits</span>
+                        <span className="text-accent font-medium">Processing</span>
+                      </div>
+                      <div className="h-2 bg-secondary rounded-full overflow-hidden">
+                        <motion.div
+                          initial={{ width: 0 }}
+                          animate={mounted ? { width: "65%" } : {}}
+                          transition={{ duration: 1, delay: 0.7 }}
+                          className="h-full bg-accent relative overflow-hidden"
+                        >
+                          <div className="absolute inset-0 bg-white/20 animate-pulse" />
+                        </motion.div>
+                      </div>
+                    </div>
+
+                    <div className="mt-auto pt-4 border-t border-border/50">
+                      <Button variant="secondary" className="w-full text-xs h-8" asChild>
+                        <Link href="/dashboard">Access Full Dashboard →</Link>
+                      </Button>
                     </div>
                   </div>
+                </div>
 
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span>Microbial Limits</span>
-                      <span className="text-accent font-medium">Processing</span>
-                    </div>
-                    <div className="h-2 bg-secondary rounded-full overflow-hidden">
-                      <motion.div
-                        initial={{ width: 0 }}
-                        animate={mounted ? { width: "65%" } : {}}
-                        transition={{ duration: 1, delay: 0.7 }}
-                        className="h-full bg-accent relative overflow-hidden"
-                      >
-                        <div className="absolute inset-0 bg-white/20 animate-pulse" />
-                      </motion.div>
-                    </div>
+                {/* Floating decorative elements */}
+                <motion.div
+                  animate={{ y: [0, -10, 0] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                  className="absolute -right-4 top-12 bg-background border shadow-lg rounded-xl p-3 flex items-center gap-3"
+                >
+                  <div className="p-2 bg-green-100 text-green-700 rounded-lg dark:bg-green-900/30 dark:text-green-400">
+                    <CheckCircle2 className="w-4 h-4" />
                   </div>
-
-                  <div className="mt-auto pt-4 border-t border-border/50">
-                    <Button variant="secondary" className="w-full text-xs h-8" asChild>
-                      <Link href="/dashboard">Access Full Dashboard →</Link>
-                    </Button>
+                  <div>
+                    <p className="text-xs font-medium">Batch #4829</p>
+                    <p className="text-[10px] text-muted-foreground">Cleared for export</p>
                   </div>
-                </div>
-              </div>
+                </motion.div>
 
-              {/* Floating decorative elements */}
-              <motion.div
-                animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute -right-4 top-12 bg-background border shadow-lg rounded-xl p-3 flex items-center gap-3"
-              >
-                <div className="p-2 bg-green-100 text-green-700 rounded-lg dark:bg-green-900/30 dark:text-green-400">
-                  <CheckCircle2 className="w-4 h-4" />
-                </div>
-                <div>
-                  <p className="text-xs font-medium">Batch #4829</p>
-                  <p className="text-[10px] text-muted-foreground">Cleared for export</p>
-                </div>
-              </motion.div>
-
-              <motion.div
-                animate={{ y: [0, 10, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                className="absolute -left-8 bottom-24 bg-background border shadow-lg rounded-xl p-3 flex items-center gap-3"
-              >
-                <div className="p-2 bg-primary/10 text-primary rounded-lg">
-                  <FileText className="w-4 h-4" />
-                </div>
-                <div>
-                  <p className="text-xs font-medium">New CoA Generated</p>
-                  <p className="text-[10px] text-muted-foreground">2 mins ago</p>
-                </div>
-              </motion.div>
+                <motion.div
+                  animate={{ y: [0, 10, 0] }}
+                  transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                  className="absolute -left-8 bottom-24 bg-background border shadow-lg rounded-xl p-3 flex items-center gap-3"
+                >
+                  <div className="p-2 bg-primary/10 text-primary rounded-lg">
+                    <FileText className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-medium">New CoA Generated</p>
+                    <p className="text-[10px] text-muted-foreground">2 mins ago</p>
+                  </div>
+                </motion.div>
               </motion.div>
             </motion.div>
           </motion.div>
@@ -272,7 +374,7 @@ export default function Home() {
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-accent/5 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/3 pointer-events-none" />
 
         <div className="container mx-auto px-4 relative z-10">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
@@ -311,7 +413,7 @@ export default function Home() {
                 onClick={() => setActiveIndustry(ind)}
                 className={`whitespace-nowrap px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-200 border
                   ${activeIndustry === ind
-                    ? "bg-primary text-primary-foreground border-primary shadow-md"
+                    ? "bg-[#00C9B1] text-white border-[#00C9B1] shadow-md"
                     : "bg-background hover:bg-secondary border-border text-foreground"
                   }`}
               >
@@ -320,50 +422,9 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredServices.map((service, i) => (
-              <motion.div
-                key={service.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.4, delay: i * 0.1 }}
-              >
-                <Card className="h-full hover-elevate transition-all duration-300 border-border/50 hover:border-primary/30 group">
-                  <CardHeader>
-                    <div className="w-12 h-12 rounded-lg bg-primary/10 text-primary flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                      {service.icon === "FlaskConical" && <FlaskConical className="w-6 h-6" />}
-                      {service.icon === "Microscope" && <Microscope className="w-6 h-6" />}
-                      {service.icon === "Activity" && <Activity className="w-6 h-6" />}
-                      {service.icon === "Droplets" && <Droplets className="w-6 h-6" />}
-                      {service.icon === "Apple" && <FlaskConical className="w-6 h-6" />}
-                      {service.icon === "Sparkles" && <FlaskConical className="w-6 h-6" />}
-                    </div>
-                    <CardTitle className="text-xl group-hover:text-primary transition-colors">{service.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <p className="text-muted-foreground text-sm leading-relaxed">
-                      {service.description}
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      {service.badges.map(b => (
-                        <Badge key={b} variant="secondary" className="bg-secondary/50 font-medium">{b}</Badge>
-                      ))}
-                    </div>
-                    <div className="flex items-center justify-between text-sm pt-4 border-t border-border/50">
-                      <span className="text-muted-foreground">Standard TAT</span>
-                      <span className="font-medium text-foreground">{service.tat.standard}</span>
-                    </div>
-                  </CardContent>
-                  <CardFooter>
-                    <Button variant="ghost" className="w-full justify-between group-hover:text-primary group-hover:bg-primary/5" asChild>
-                      <Link href={`/services/${service.id}`}>
-                        Learn More <ArrowRight className="w-4 h-4 ml-2 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
-                      </Link>
-                    </Button>
-                  </CardFooter>
-                </Card>
-              </motion.div>
+              <ServiceCardHome key={service.id} service={service} index={i} />
             ))}
           </div>
 
@@ -524,7 +585,7 @@ export default function Home() {
                   </p>
                 </div>
               </div>
-              
+
               {/* Decorative blobs */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-r from-primary/10 to-transparent rounded-full blur-3xl -z-20 pointer-events-none" />
             </motion.div>
@@ -532,28 +593,23 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA SECTION */}
-      <section className="py-24 bg-primary text-primary-foreground relative overflow-hidden">
+      {/* CTA SECTION - COMPACT */}
+      <section className="py-20 bg-primary text-primary-foreground relative overflow-hidden">
         <div className="absolute inset-0 molecular-bg opacity-20" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent mix-blend-multiply" />
-
         <div className="container relative z-10 mx-auto px-4 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="max-w-3xl mx-auto space-y-8"
+            className="max-w-3xl mx-auto space-y-6"
           >
-            <h2 className="text-4xl md:text-5xl font-bold font-display tracking-tight">Ready to elevate your quality standards?</h2>
-            <p className="text-xl text-primary-foreground/80 font-medium">
-              Join 500+ compliant enterprises across Saudi Arabia.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-              <Button size="lg" variant="secondary" className="w-full sm:w-auto text-base h-14 px-8 text-primary shadow-xl">
-                Request Quick Quote
+            <h2 className="text-4xl font-bold font-display tracking-tight">Ready to elevate your quality standards?</h2>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Button size="lg" variant="secondary" className="h-14 px-8 text-primary shadow-xl">
+                Quick Quote
               </Button>
-              <Button size="lg" className="w-full sm:w-auto text-base h-14 px-8 bg-transparent border-2 border-primary-foreground/30 hover:bg-primary-foreground/10 text-primary-foreground" asChild>
-                <Link href="/dashboard">Access Client Portal</Link>
+              <Button size="lg" className="h-14 px-8 bg-transparent border-2 border-primary-foreground/30 hover:bg-primary-foreground/10 text-primary-foreground" asChild>
+                <Link href="/dashboard">Access Portal</Link>
               </Button>
             </div>
           </motion.div>

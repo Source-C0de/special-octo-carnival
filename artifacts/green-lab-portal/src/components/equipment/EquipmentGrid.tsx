@@ -24,23 +24,22 @@ export default function EquipmentGrid({ items, activeFilter, onItemClick }: Equi
         const mappedIndustry = filterMap[activeFilter];
         const isMatch = activeFilter === "All" || item.industries.includes(mappedIndustry as any);
         
-        // Bento pattern: first item is large on desktop
-        const isBentoLarge = index === 0 || index === 3;
+        if (!isMatch) return null;
 
         return (
-          <div 
+          <motion.div 
+            layout
             key={item.id} 
-            className={`
-              ${isBentoLarge ? "md:col-span-2" : "md:col-span-1"}
-              transition-all duration-500
-            `}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            className="transition-all duration-500"
           >
             <EquipmentCard 
               item={item} 
               onOpen={() => onItemClick(item)}
-              isFilteredOut={!isMatch}
             />
-          </div>
+          </motion.div>
         );
       })}
     </div>

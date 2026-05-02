@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { MapPin, Phone, Mail, Clock, Send, CheckCircle2, Globe, ArrowRight } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
@@ -8,6 +8,63 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { Badge } from "@/components/ui/badge";
+import { StarsBackground } from "@/components/animate-ui/components/backgrounds/stars";
+
+function TypewriterText({ text, delay = 0 }: { text: string, delay?: number }) {
+  const [displayedText, setDisplayedText] = useState("");
+  const [index, setIndex] = useState(0);
+  const [hasStarted, setHasStarted] = useState(false);
+  const audioCtxRef = useRef<any>(null);
+
+  useEffect(() => {
+    try {
+      audioCtxRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+    } catch (e) { }
+
+    const startTimeout = setTimeout(() => setHasStarted(true), delay);
+    return () => clearTimeout(startTimeout);
+  }, [delay]);
+
+  useEffect(() => {
+    if (!hasStarted) return;
+
+    if (index < text.length) {
+      const timeout = setTimeout(() => {
+        setDisplayedText((prev) => prev + text.charAt(index));
+        setIndex((prev) => prev + 1);
+
+        // play subtle typewriter tick
+        if (audioCtxRef.current && audioCtxRef.current.state === 'running') {
+          try {
+            const oscillator = audioCtxRef.current.createOscillator();
+            const gainNode = audioCtxRef.current.createGain();
+            oscillator.type = 'triangle';
+            oscillator.frequency.setValueAtTime(600 + Math.random() * 50, audioCtxRef.current.currentTime);
+            gainNode.gain.setValueAtTime(0.02, audioCtxRef.current.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtxRef.current.currentTime + 0.05);
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtxRef.current.destination);
+            oscillator.start();
+            oscillator.stop(audioCtxRef.current.currentTime + 0.05);
+          } catch (e) { }
+        }
+      }, 50 + Math.random() * 80); // random typing speed
+
+      return () => clearTimeout(timeout);
+    }
+  }, [index, text, hasStarted]);
+
+  return (
+    <>
+      {displayedText}
+      <motion.span
+        animate={{ opacity: [1, 0] }}
+        transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
+        className="inline-block w-1 h-[0.9em] bg-primary ml-1 align-middle -translate-y-0.5"
+      />
+    </>
+  );
+}
 
 export default function Contact() {
   const { toast } = useToast();
@@ -38,6 +95,9 @@ export default function Contact() {
     <div className="flex flex-col min-h-screen bg-background">
       {/* HEADER SECTION */}
       <section className="relative pt-32 pb-20 overflow-hidden border-b bg-gradient-to-b from-primary/10 via-background to-background">
+        {/* <div className="absolute inset-0 z-0 mix-blend-multiply dark:mix-blend-screen pointer-events-none">
+          <StarsBackground className="absolute inset-0 opacity-40 bg-transparent" starColors={["#1E5A8E", "#0A5C36", "#00C9B1"]} />
+        </div> */}
         <div className="absolute inset-0 molecular-bg opacity-20" />
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2" />
 
@@ -49,7 +109,8 @@ export default function Contact() {
           >
             <Badge variant="outline" className="mb-4 border-primary/20 text-primary bg-primary/5 px-4 py-1">Contact Green Lab</Badge>
             <h1 className="text-5xl md:text-6xl font-display font-bold tracking-tight mb-6">
-              Expert Guidance is <span className="text-primary italic">Just a Message Away.</span>
+              Expert Guidance is <br />
+              <span className="text-primary italic"><TypewriterText text="Just a Message Away." delay={600} /></span>
             </h1>
             <p className="text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
               Ready to elevate your quality standards? Our team of analytical experts and scientists is standing by to support your compliance needs.

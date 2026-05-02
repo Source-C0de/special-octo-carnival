@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "wouter";
 import { motion, useScroll, useTransform } from "framer-motion";
 import {
@@ -75,10 +75,32 @@ const milestones = [
 
 export default function About() {
   const { language } = useLanguage();
-  const { scrollYProgress } = useScroll();
-  const yParallax = useTransform(scrollYProgress, [0, 1], [0, -200]);
-
   const [activeIndex, setActiveIndex] = useState(0);
+
+  const sectionRef = useRef(null);
+
+  /* Scroll Progress */
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start center", "end center"],
+  });
+
+  /* Line Draw Progress */
+  const pathLength = useTransform(scrollYProgress, [0, 1], [0, 1]);
+
+  /* Detect Active Stage */
+  useEffect(() => {
+    const unsubscribe = scrollYProgress.on("change", (v) => {
+      const total = milestones.length;
+      const step = Math.min(
+        total - 1,
+        Math.floor(v * total)
+      );
+      setActiveIndex(step);
+    });
+
+    return () => unsubscribe();
+  }, [scrollYProgress, milestones.length]);
 
   // 🔥 Auto step progression
   useEffect(() => {
@@ -118,6 +140,9 @@ export default function About() {
       journeyTitle: "رحلة الشريك",
     }
   }[language];
+
+  const { scrollYProgress: windowScroll } = useScroll();
+  const yParallax = useTransform(windowScroll, [0, 1], [0, -200]);
 
   return (
     <div className={`min-h-screen bg-sand/30 font-sans overflow-hidden ${language === 'ar' ? 'rtl' : 'ltr'}`}>
@@ -221,7 +246,7 @@ export default function About() {
       </section>
 
       {/* 3. CLIENT JOURNEY (THE PARTNER PATH) */}
-      <section className="py-32 overflow-hidden bg-white border-y">
+      {/* <section className="py-32 overflow-hidden bg-white border-y">
         <div className="container mx-auto px-4">
           <div className="text-center mb-20 space-y-4">
             <Badge className="bg-primary/10 text-primary border-none text-[10px] font-black tracking-widest uppercase px-4 py-1">{t.journeyTitle}</Badge>
@@ -269,7 +294,7 @@ export default function About() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
       <section className="py-32 bg-white border-y overflow-hidden">
         <div className="container mx-auto px-4">
 
@@ -390,7 +415,7 @@ export default function About() {
         </div>
       </section>
 
-      <section className="bg-sand/30 py-40 border-y">
+      {/*<section className="bg-sand/30 py-40 border-y">
         <div className="container mx-auto px-4 max-w-4xl">
           <div className="text-center mb-24 space-y-4">
             <Badge variant="outline" className="border-emerald/20 text-emerald uppercase text-[10px] font-black tracking-[0.2em]">{t.milestonesTitle}</Badge>
@@ -425,141 +450,66 @@ export default function About() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
-      <section className="bg-sand/30 py-40 border-y overflow-hidden">
-        <div className="container mx-auto px-4">
 
-          {/* Header */}
-          <div className="text-center mb-24 space-y-4">
-            <Badge
-              variant="outline"
-              className="border-emerald/20 text-emerald uppercase text-[10px] font-black tracking-[0.2em]"
-            >
-              {t.milestonesTitle}
-            </Badge>
-            <h2 className="text-5xl font-display font-bold">
-              Chronicles of Evolution
-            </h2>
-          </div>
-
-          {/* Timeline Wrapper */}
-          <div className="relative">
-
-            {/* Animated Line */}
-            <div className="absolute top-20 left-0 w-full h-[2px] bg-emerald/10">
-              <motion.div
-                className="h-full bg-gradient-to-r from-emerald via-green-400 to-emerald shadow-[0_0_20px_#10b981]"
-                initial={{ width: "0%" }}
-                whileInView={{ width: "100%" }}
-                transition={{ duration: 2, ease: "easeInOut" }}
-              />
-            </div>
-
-            {/* Horizontal Scroll Container */}
-            <div className="flex gap-16 overflow-x-auto pb-10 pt-32 snap-x snap-mandatory scrollbar-hide">
-
-              {[
-                {
-                  year: "2018",
-                  title: { en: "The Foundation", ar: "التأسيس" },
-                  desc: "Laid the first stones of Saudi-owned precision testing.",
-                  icon: Beaker,
-                },
-                {
-                  year: "2019",
-                  title: { en: "Accreditation Leap", ar: "قفزة الاعتماد" },
-                  desc: "Attained ISO/IEC 17025 certification across core scopes.",
-                  icon: Award,
-                },
-                {
-                  year: "2021",
-                  title: { en: "State Recognition", ar: "الاعتراف الحكومي" },
-                  desc: "SFDA authorization for drug and food safety analytics.",
-                  icon: ClipboardCheck,
-                },
-                {
-                  year: "2024",
-                  title: { en: "Saudi Vision Era", ar: "عصر رؤية السعودية" },
-                  desc: "Expansion into futurist projects and NEOM specialized support.",
-                  icon: Microscope,
-                },
-              ].map((milestone, i) => {
-                const Icon = milestone.icon;
-
-                return (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, y: 60 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.2 }}
-                    className="relative min-w-[300px] max-w-[320px] snap-center group"
-                  >
-
-                    {/* Icon */}
-                    <div className="absolute -top-16 left-1/2 -translate-x-1/2">
-                      <div className="w-20 h-20 rounded-[2rem] bg-gradient-to-br from-emerald to-green-500 text-white flex items-center justify-center shadow-xl shadow-emerald/30 border-4 border-white group-hover:scale-110 transition-all">
-                        <Icon className="w-8 h-8" />
-                      </div>
-                    </div>
-
-                    {/* Card */}
-                    <div className="bg-white p-8 pt-14 rounded-[2rem] shadow-xl border border-emerald/5 
-                              hover:border-emerald/30 hover:shadow-emerald/10 
-                              transition-all duration-300 group-hover:-translate-y-3">
-
-                      <span className="text-emerald font-mono font-bold text-lg block mb-2">
-                        {milestone.year}
-                      </span>
-
-                      <h4 className="text-xl font-bold mb-3">
-                        {milestone.title[language]}
-                      </h4>
-
-                      <p className="text-muted-foreground text-sm leading-relaxed">
-                        {milestone.desc}
-                      </p>
-                    </div>
-
-                    {/* Glow Dot */}
-                    <div className="absolute top-[76px] left-1/2 -translate-x-1/2 w-3 h-3 bg-emerald rounded-full shadow-[0_0_10px_#10b981]" />
-                  </motion.div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-sand/30 py-40 border-y overflow-hidden">
+      <section
+        ref={sectionRef}
+        className="bg-sand/30 py-40 border-y overflow-hidden relative"
+      >
+        {/* Heading */}
         <div className="container mx-auto px-4 text-center mb-24">
           <h2 className="text-5xl font-display font-bold">
             Chronicles of Evolution
           </h2>
         </div>
 
-        {/* Graph Flow */}
-        <div className="relative flex flex-col items-center gap-24">
+        {/* Timeline */}
+        <div className="relative max-w-6xl mx-auto px-6">
 
-          {/* SVG Path (Graph Line) */}
+          {/* SVG Continuous Path */}
           <svg
-            className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-full"
-            viewBox="0 0 800 600"
-            fill="none"
+            className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none"
+            viewBox="0 0 1000 1800"
+            preserveAspectRatio="none"
           >
-            <motion.path
-              d="M100 50 Q400 150 700 50 
-               Q400 300 100 250 
-               Q400 450 700 400"
-              stroke="url(#grad)"
-              strokeWidth="3"
-              strokeDasharray="2000"
-              strokeDashoffset="2000"
-              animate={{ strokeDashoffset: activeIndex >= 3 ? 0 : 2000 }}
-              transition={{ duration: 3 }}
+            {/* Background Line */}
+            <path
+              d="
+              M500 50
+              Q800 150 700 300
+              Q500 450 300 600
+              Q200 750 500 900
+              Q800 1050 700 1200
+              Q500 1350 300 1500
+              Q200 1650 500 1750
+            "
+              fill="none"
+              stroke="#d1d5db"
+              strokeWidth="4"
+              strokeLinecap="round"
             />
+
+            {/* Active Animated Line */}
+            <motion.path
+              d="
+              M500 50
+              Q800 150 700 300
+              Q500 450 300 600
+              Q200 750 500 900
+              Q800 1050 700 1200
+              Q500 1350 300 1500
+              Q200 1650 500 1750
+            "
+              fill="none"
+              stroke="url(#grad)"
+              strokeWidth="5"
+              strokeLinecap="round"
+              style={{ pathLength }}
+            />
+
             <defs>
-              <linearGradient id="grad">
+              <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stopColor="#10b981" />
                 <stop offset="100%" stopColor="#34d399" />
               </linearGradient>
@@ -567,57 +517,68 @@ export default function About() {
           </svg>
 
           {/* Nodes */}
-          {milestones.map((item, i) => {
-            const Icon = item.icon;
-            const isActive = i <= activeIndex;
+          <div className="relative flex flex-col gap-32">
+            {milestones.map((item, i) => {
+              const Icon = item.icon;
+              const isActive = i <= activeIndex;
 
-            return (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, scale: 0.7 }}
-                animate={{
-                  opacity: isActive ? 1 : 0.3,
-                  scale: isActive ? 1 : 0.8,
-                }}
-                transition={{ duration: 0.5 }}
-                className={`relative flex items-center gap-6 ${i % 2 === 0 ? "flex-row" : "flex-row-reverse"
-                  }`}
-              >
-                {/* Node */}
-                <div
-                  className={`w-20 h-20 rounded-2xl flex items-center justify-center text-white shadow-xl transition-all
-                ${isActive
-                      ? "bg-gradient-to-br from-emerald to-green-500 shadow-emerald/40 animate-pulse"
-                      : "bg-gray-200"
+              return (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 80 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                  viewport={{ once: true }}
+                  className={`flex items-center gap-8 ${i % 2 === 0
+                    ? "justify-start"
+                    : "justify-end"
                     }`}
                 >
-                  <Icon className="w-8 h-8" />
-                </div>
+                  {/* Card + Node Side */}
+                  <div
+                    className={`flex items-center gap-6 ${i % 2 === 0
+                      ? "flex-row"
+                      : "flex-row-reverse"
+                      }`}
+                  >
+                    {/* Node */}
+                    <div
+                      className={`w-20 h-20 rounded-2xl flex items-center justify-center text-white shadow-xl transition-all duration-500 z-10
+                    ${isActive
+                          ? "bg-gradient-to-br from-emerald to-green-500 shadow-emerald/40 scale-110"
+                          : "bg-gray-300"
+                        }`}
+                    >
+                      <Icon className="w-8 h-8" />
+                    </div>
 
-                {/* Card */}
-                <div
-                  className={`bg-white p-6 rounded-2xl shadow-lg border transition-all max-w-sm
-                ${isActive
-                      ? "border-emerald/20 opacity-100"
-                      : "opacity-40"
-                    }`}
-                >
-                  <span className="text-emerald font-mono font-bold block">
-                    {item.year}
-                  </span>
-                  <h4 className="font-bold text-lg mt-1">
-                    {item.title[language]}
-                  </h4>
-                  <p className="text-sm text-muted-foreground mt-2">
-                    {item.desc}
-                  </p>
-                </div>
-              </motion.div>
-            );
-          })}
+                    {/* Card */}
+                    <div
+                      className={`bg-white p-6 rounded-2xl shadow-lg border max-w-sm transition-all duration-500
+                    ${isActive
+                          ? "border-emerald/20 opacity-100"
+                          : "opacity-40"
+                        }`}
+                    >
+                      <span className="text-emerald font-mono font-bold block">
+                        {item.year}
+                      </span>
+
+                      <h4 className="font-bold text-lg mt-1">
+                        {item.title[language]}
+                      </h4>
+
+                      <p className="text-sm text-muted-foreground mt-2">
+                        {item.desc}
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
       </section>
-
 
       {/* 4. LEADERSHIP & SCIENTIFIC EXPERTS (REDESIGNED) */}
       <section className="py-32 container mx-auto px-4">

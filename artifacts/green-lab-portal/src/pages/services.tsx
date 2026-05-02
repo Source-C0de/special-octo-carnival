@@ -55,11 +55,11 @@ export default function Services() {
               animate={{ opacity: 1, y: 0 }}
               className="space-y-4"
             >
-              <Badge variant="outline" className="text-emerald border-emerald/20 bg-emerald/5 px-4 py-1">
+              <Badge variant="outline" className="text-[#00C9B1] border-[#00C9B1]/20 bg-[#00C9B1]/5 px-4 py-1">
                 {language === 'en' ? 'Laboratory Solutions Ecosystem' : 'نظام حلول المختبرات المتكامل'}
               </Badge>
               <h1 className="text-5xl md:text-7xl font-display font-bold tracking-tight">
-                {language === 'en' ? 'Smart Analytics for' : 'تحليلات ذكية لـ'} <span className="text-emerald italic">{language === 'en' ? 'Global Impact.' : 'تأثير عالمي.'}</span>
+                {language === 'en' ? 'Smart Analytics for' : 'تحليلات ذكية لـ'} <span className="text-[#00C9B1] italic">{language === 'en' ? 'Global Impact.' : 'تأثير عالمي.'}</span>
               </h1>
               <p className="text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
                 {language === 'en' 
@@ -76,10 +76,10 @@ export default function Services() {
               className="relative max-w-2xl mx-auto"
             >
               <div className="relative group">
-                <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-6 h-6 text-emerald group-hover:scale-110 transition-transform" />
+                <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-6 h-6 text-[#00C9B1] group-hover:scale-110 transition-transform" />
                 <Input 
                   placeholder={language === 'en' ? "Describe your need or search services..." : "صف حاجتك أو ابحث في الخدمات..."}
-                  className="h-16 pl-16 pr-6 bg-white border-2 border-emerald/10 shadow-xl rounded-2xl text-lg focus-visible:ring-emerald focus-visible:border-emerald"
+                  className="h-16 pl-16 pr-6 bg-white border-2 border-[#00C9B1]/10 shadow-xl rounded-2xl text-lg focus-visible:ring-[#00C9B1] focus-visible:border-[#00C9B1]"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -93,8 +93,8 @@ export default function Services() {
                     onClick={() => setActiveCategory(cat)}
                     className={`px-6 py-2 rounded-full text-xs font-bold transition-all ${
                       activeCategory === cat 
-                        ? 'bg-emerald text-white shadow-lg' 
-                        : 'bg-emerald/5 text-emerald hover:bg-emerald/10 border border-emerald/10'
+                        ? 'bg-[#00C9B1] text-white shadow-lg' 
+                        : 'bg-[#00C9B1]/5 text-[#00C9B1] hover:bg-[#00C9B1]/10 border border-[#00C9B1]/10'
                     }`}
                   >
                     {cat}
@@ -115,7 +115,6 @@ export default function Services() {
                 key={service.id} 
                 service={service} 
                 onClick={() => setSelectedService(service)}
-                isLarge={service.size === 'large'}
               />
             ))}
           </AnimatePresence>
@@ -147,21 +146,15 @@ export default function Services() {
         ) : null}
       </main>
 
-      {/* 3. DUAL CTA SECTION */}
-      <section className="bg-[#0A5C36] py-32 text-center text-white relative overflow-hidden">
+      {/* 3. DUAL CTA SECTION - MODERATED PADDING */}
+      <section className="bg-[#0A5C36] py-20 text-center text-white relative overflow-hidden">
         <div className="absolute top-0 left-0 w-96 h-96 bg-teal/20 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2" />
         <div className="container relative z-10 mx-auto px-4">
           <div className="max-w-2xl mx-auto space-y-8">
-            <h2 className="text-5xl font-display font-bold">Ready to Scale Your <br /> Quality Standards?</h2>
-            <p className="text-emerald-foreground/70 text-lg leading-relaxed">
-              Join 500+ corporate clients leveraging the Green Lab analytical advantage. Precise data. Institutional trust.
-            </p>
-            <div className="flex flex-wrap justify-center gap-6">
-              <Button size="lg" className="h-16 px-12 bg-white text-emerald font-bold hover:bg-emerald/5 text-xl rounded-2xl" onClick={handleConsultSubmit}>
-                Request a Proposal
-              </Button>
-              <Button size="lg" variant="outline" className="h-16 px-12 border-white/20 text-white font-bold hover:bg-white/10 text-xl rounded-2xl">
-                Expert Consultation
+            <h2 className="text-4xl font-display font-bold">Ready to Scale Your Standards?</h2>
+            <div className="flex flex-wrap justify-center gap-4">
+              <Button size="lg" className="h-14 px-10 bg-white text-emerald font-bold hover:bg-emerald-50 rounded-xl" onClick={handleConsultSubmit}>
+                Request Proposal
               </Button>
             </div>
           </div>

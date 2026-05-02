@@ -23,7 +23,7 @@ export const mockEquipment: Equipment[] = [
     heroMetric: "Ultra-Trace Elemental Analysis",
     description: "State-of-the-art elemental detection for heavy metals and trace elements in pharmaceutical and environmental matrices.",
     industries: ["Pharma", "Water", "Food"],
-    image: "https://images.unsplash.com/photo-1579154217064-0a47b3842407?auto=format&fit=crop&q=80&w=800",
+    image: "/equipment/icps.png",
     specs: {
       iso17025: true,
       astm: ["D5673", "E1621"],
@@ -180,10 +180,10 @@ export const mockEquipment: Equipment[] = [
 ];
 
 export const industryFilters = [
-  "All", 
-  "Pharma Compliance", 
-  "Water Safety", 
-  "Food Integrity", 
-  "Cosmetics QA", 
+  "All",
+  "Pharma Compliance",
+  "Water Safety",
+  "Food Integrity",
+  "Cosmetics QA",
   "Industrial Materials"
 ];

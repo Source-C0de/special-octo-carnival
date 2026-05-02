@@ -1,11 +1,42 @@
-import { useState, useEffect } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import { motion, useScroll, useTransform, animate, useInView } from "framer-motion";
 import { mockEquipment } from "@/lib/mock-equipment";
 import EquipmentGrid from "@/components/equipment/EquipmentGrid";
 import MethodologyMatcher from "@/components/equipment/MethodologyMatcher";
 import EquipmentDrawer from "@/components/equipment/EquipmentDrawer";
 import { Badge } from "@/components/ui/badge";
 import { FlaskConical, Target, Shield } from "lucide-react";
+
+function AnimatedStat({ value, label, icon: Icon, suffix = "" }: { value: number | string, label: string, icon: any, suffix?: string }) {
+  const [count, setCount] = useState(0);
+  const nodeRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(nodeRef, { once: true });
+  
+  useEffect(() => {
+    if (inView && typeof value === 'number') {
+      const controls = animate(0, value, {
+        duration: 2.5,
+        ease: "easeOut",
+        onUpdate: (val) => setCount(Math.round(val))
+      });
+      return controls.stop;
+    }
+  }, [inView, value]);
+
+  const displayValue = typeof value === 'number' ? count + suffix : value;
+
+  return (
+    <div ref={nodeRef} className="space-y-1 relative group p-4 -m-4 rounded-xl hover:bg-emerald/5 transition-colors border border-transparent hover:border-emerald/10 cursor-pointer">
+      <div className="flex items-center gap-2 text-muted-foreground mb-1 group-hover:text-primary transition-colors">
+        <Icon className="w-4 h-4" />
+        <span className="text-[10px] uppercase font-bold tracking-widest">{label}</span>
+      </div>
+      <p className="text-3xl font-display font-bold text-foreground transition-transform duration-500 group-hover:scale-105 origin-left">
+        {displayValue}
+      </p>
+    </div>
+  );
+}
 
 export default function EquipmentPage() {
   const [activeFilter, setActiveFilter] = useState("All");
@@ -17,11 +48,7 @@ export default function EquipmentPage() {
   const yParallax = useTransform(scrollYProgress, [0, 1], [0, -100]);
 
   useEffect(() => {
-    // Dynamic count up for hero stat based on actual data
-    const timer = setTimeout(() => {
-      setActiveStats(mockEquipment.length);
-    }, 500);
-    return () => clearTimeout(timer);
+    setActiveStats(mockEquipment.length);
   }, []);
 
   const handleItemClick = (item: any) => {
@@ -54,11 +81,16 @@ export default function EquipmentPage() {
       <header className="relative z-10 pt-32 pb-20 border-b border-emerald/10 bg-white">
         <div className="container mx-auto px-4">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, staggerChildren: 0.2 }}
             className="max-w-4xl"
           >
-            <div className="flex items-center gap-2 mb-6">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex items-center gap-2 mb-6"
+            >
               <Badge className="bg-emerald/5 text-primary border-emerald/10 px-4 py-1 text-xs font-bold uppercase tracking-widest">
                  Technical Infrastructure Hub
               </Badge>
@@ -73,30 +105,30 @@ export default function EquipmentPage() {
                   />
                 ))}
               </div>
-            </div>
+            </motion.div>
 
-            <h1 className="text-5xl md:text-7xl font-display font-bold text-foreground tracking-tight leading-[1.1] mb-8">
+            <motion.h1 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-5xl md:text-7xl font-display font-bold text-foreground tracking-tight leading-[1.1] mb-8"
+            >
               High-Precision <br />
               <span className="text-primary italic">Analytical Platforms.</span>
-            </h1>
+            </motion.h1>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="grid grid-cols-1 sm:grid-cols-3 gap-8"
+            >
               {[
-                { label: "Core Platforms", value: activeStats, icon: FlaskConical },
-                { label: "ISO-Validated Methods", value: "500+", icon: Target },
-                { label: "Global Compliance", value: "100%", icon: Shield }
+                { label: "Core Platforms", value: activeStats, icon: FlaskConical, suffix: "" },
+                { label: "ISO-Validated Methods", value: 500, icon: Target, suffix: "+" },
+                { label: "Global Compliance", value: 100, icon: Shield, suffix: "%" }
               ].map((stat, i) => (
-                <div key={i} className="space-y-1">
-                  <div className="flex items-center gap-2 text-muted-foreground mb-1">
-                    <stat.icon className="w-4 h-4 text-primary" />
-                    <span className="text-[10px] uppercase font-bold tracking-widest">{stat.label}</span>
-                  </div>
-                  <p className="text-3xl font-display font-bold text-foreground transition-all duration-1000">
-                    {stat.value}
-                  </p>
-                </div>
+                <AnimatedStat key={i} {...stat} />
               ))}
-            </div>
+            </motion.div>
           </motion.div>
         </div>
       </header>
